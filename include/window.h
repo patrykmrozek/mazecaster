@@ -8,7 +8,7 @@
 #define HEIGHT 700
 
 SDL_Window* init_window();
-SDL_Surface* get_surface(SDL_Window* window);
+SDL_Renderer* get_renderer(SDL_Window* window);
 TTF_Font* load_font();
 
 #endif

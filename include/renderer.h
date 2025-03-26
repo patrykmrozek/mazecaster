@@ -4,6 +4,6 @@
 #include "player.h"
 #include "window.h"
 
-void draw_player(SDL_Surface* surface, Player* player);
+void draw_player(SDL_Renderer* renderer, Player* player);
 
 #endif

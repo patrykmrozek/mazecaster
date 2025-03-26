@@ -2,12 +2,12 @@
 #include "window.h"
 #include "player.h"
 #include "renderer.h"
+#include "inputs.h"
 
 int main() {
   
   SDL_Window* window = init_window();
-  SDL_Surface* surface = get_surface(window);
-
+  SDL_Renderer* renderer = get_renderer(window);
   Player player;
   init_player(&player);
 
@@ -23,11 +23,15 @@ int main() {
         program_running = 0;
       }  
     }
-
-    draw_player(surface, &player);
-    SDL_UpdateWindowSurface(window);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);//clear screen
+    draw_player(renderer, &player);
+    get_user_inputs(window, &player);
+    SDL_RenderPresent(renderer);
   }
-  return 0;
+
+  SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(window);
   SDL_Quit();
-  SDL_DestroyWindowSurface(window);
+  return 0;
 }

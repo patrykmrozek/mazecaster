@@ -10,13 +10,16 @@ SDL_Window* init_window() {
 		WIDTH,
 		HEIGHT,
 		SDL_WINDOW_SHOWN);
+    
+    //create renderer for window
+    SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	return window;
 }
 
-//get surface
-SDL_Surface* get_surface(SDL_Window* window) {
-	SDL_Surface* surface = SDL_GetWindowSurface(window);
-	return surface;
+// get renderer
+SDL_Renderer* get_renderer(SDL_Window* window) {
+  SDL_Renderer* renderer = SDL_GetRenderer(window);
+  return renderer;
 }
 
 //fetch and load font
