@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include "window.h"
-
+#include "player.h"
+#include "renderer.h"
 
 int main() {
   
   SDL_Window* window = init_window();
-  //SDL_Surface* surface = get_surface(window);
+  SDL_Surface* surface = get_surface(window);
+
+  Player player;
+  init_player(&player);
 
   SDL_RaiseWindow(window); //needed for the window to appear above all other windows
   SDL_PumpEvents();
@@ -20,6 +24,7 @@ int main() {
       }  
     }
 
+    draw_player(surface, &player);
     SDL_UpdateWindowSurface(window);
   }
   return 0;
