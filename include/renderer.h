@@ -5,5 +5,6 @@
 #include "window.h"
 
 void draw_player(SDL_Renderer* renderer, Player* player);
+void draw_map(SDL_Renderer* renderer);
 
-#endif
+#endif 

@@ -13,8 +13,5 @@ extern const int TILE_SIZE;
 extern const int MAP[][8];
 
 
-
-void draw_map(SDL_Renderer* renderer);
-
 #endif
 
