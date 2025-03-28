@@ -3,6 +3,7 @@
 void get_user_inputs(SDL_Window* window, Player* player) {
   const Uint8* keystate = SDL_GetKeyboardState(NULL);
   float speed = 3.0f; // movement speed
+  float turnSpeed = 0.05f;
   //
   if (keystate[SDL_SCANCODE_W]) {
     player->x += player->dx;
@@ -28,7 +29,7 @@ void get_user_inputs(SDL_Window* window, Player* player) {
   }
 
   if (keystate[SDL_SCANCODE_LEFT]) {
-    player->a-=0.1;
+    player->a-=turnSpeed;
     if (player->a < 0) // if player angle goes below zero, reset to 360(2PI) 
       {player->a += 2*PI;}
     player->dx=cos(player->a)*speed;
@@ -36,7 +37,7 @@ void get_user_inputs(SDL_Window* window, Player* player) {
   }
 
   if (keystate[SDL_SCANCODE_RIGHT]) {
-    player->a+=0.1;
+    player->a+=turnSpeed;
     if (player->a > 2*PI) // if player angle goes above 360(2PI), reset to zero 
       {player->a -= 2*PI;}
     player->dx=cos(player->a)*speed;
