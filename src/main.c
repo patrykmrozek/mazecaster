@@ -3,6 +3,7 @@
 #include "player.h"
 #include "renderer.h"
 #include "inputs.h"
+#include "map.h"
 
 int main() {
   
@@ -25,6 +26,7 @@ int main() {
     }
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);//clear screen
+    draw_map(renderer);
     draw_player(renderer, &player);
     printf("X: %f, Y: %f\n", player.x, player.y);
     get_user_inputs(window, &player);
