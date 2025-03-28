@@ -3,10 +3,14 @@
 void init_player(Player* player) {
   *player = (Player)
   {
-    WIDTH/2,
-    HEIGHT/2,
-    PLAYER_WIDTH,
-    PLAYER_HEIGHT,
+    .x = WIDTH/2,
+    .y = HEIGHT/2,
+    .dx = PDX_INIT,
+    .dy = PDY_INIT,
+    .a = 0,
+    .size = PLAYER_SIZE,
     COLOR_WHITE
   };
 }  
+
+
