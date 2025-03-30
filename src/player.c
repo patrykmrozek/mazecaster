@@ -3,8 +3,8 @@
 void init_player(Player* player) {
   *player = (Player)
   {
-    .x = WIDTH/5,
-    .y = HEIGHT/5,
+    .x = WIDTH/4,
+    .y = HEIGHT/2,
     .dx = PDX_INIT,
     .dy = PDY_INIT,
     .a = 0,

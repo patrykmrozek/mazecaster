@@ -30,16 +30,20 @@ void get_user_inputs(SDL_Window* window, Player* player) {
 
   if (keystate[SDL_SCANCODE_LEFT]) {
     player->a-=turnSpeed;
-    if (player->a < 0) // if player angle goes below zero, reset to 360(2PI) 
-      {player->a += 2*PI;}
+    if (player->a < 0) { // if player angle goes below zero, reset to 360(2PI)
+      player->a += 2*PI;
+    } 
+      
     player->dx=cos(player->a)*speed;
     player->dy=sin(player->a)*speed;
   }
 
   if (keystate[SDL_SCANCODE_RIGHT]) {
     player->a+=turnSpeed;
-    if (player->a > 2*PI) // if player angle goes above 360(2PI), reset to zero 
-      {player->a -= 2*PI;}
+    if (player->a > 2*PI){ // if player angle goes above 360(2PI), reset to zero 
+      player->a -= 2*PI;
+    }
+
     player->dx=cos(player->a)*speed;
     player->dy=sin(player->a)*speed;
   }

@@ -28,7 +28,7 @@ int main() {
     SDL_RenderClear(renderer);//clear screen
     draw_map(renderer);
     draw_player(renderer, &player);
-    printf("X: %f, Y: %f\n", player.x, player.y);
+    printf("X: %f, Y: %f ANGLE: %f\n", player.x, player.y, player.a);
     get_user_inputs(window, &player);
     SDL_RenderPresent(renderer);
   }
