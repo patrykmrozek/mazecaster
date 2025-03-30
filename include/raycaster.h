@@ -4,7 +4,7 @@
 #include "player.h"
 #include "window.h"
 
-void cast_rays(Player* player);
+void cast_rays(SDL_Renderer* renderer, Player* player);
 
 #endif
 

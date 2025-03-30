@@ -4,6 +4,7 @@
 #include "renderer.h"
 #include "inputs.h"
 #include "map.h"
+#include "utils.h"
 
 int main() {
   
@@ -24,13 +25,16 @@ int main() {
         program_running = 0;
       }  
     }
+    double deltaTime = calc_delta_time();
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);//clear screen
     draw_map(renderer);
     draw_player(renderer, &player);
-    printf("X: %f, Y: %f ANGLE: %f\n", player.x, player.y, player.a);
+    //printf("X: %f, Y: %f ANGLE: %f\n", player.x, player.y, player.a);
     get_user_inputs(window, &player);
     SDL_RenderPresent(renderer);
+
+    printf("FPS: %f\n", 1.0/deltaTime);
   }
 
   SDL_DestroyRenderer(renderer);

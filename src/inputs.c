@@ -2,7 +2,7 @@
 
 void get_user_inputs(SDL_Window* window, Player* player) {
   const Uint8* keystate = SDL_GetKeyboardState(NULL);
-  float speed = 3.0f; // movement speed
+  float speed = 2.0f; // movement speed
   float turnSpeed = 0.05f;
   //
   if (keystate[SDL_SCANCODE_W]) {
