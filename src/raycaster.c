@@ -12,6 +12,11 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
   float offsetX, offsetY; //offset will be used per cell in the grid to reach the end of the following cell
   int mapX, mapY; // determine which cell in the map the ray is
 
+  //store the distances from player to the end of ray for:
+  float distH;//horizontal rays
+  float distV;//vertical rays
+  float hx, hy, vx, vy; //store x and y of horiontal and vertical checks seperately
+
   rayA = player->a;
   rayX = player->x;
   rayY = player->y;
@@ -62,15 +67,19 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
         }
       }
     }
+    
+    distH = distance_two_points(player->x, player->y, rayX, rayY);
+    hx = rayX;
+    hy = rayY;
         //draw ray from player to the end of the ray
-        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 0);
-        SDL_RenderDrawLine(
-          renderer,
-          player->x + (player->size/2),
-          player->y + (player->size/2),
-          rayX,
-          rayY
-        );
+        //SDL_SetRenderDrawColor(renderer, 0, 255, 0, 0);
+        //SDL_RenderDrawLine(
+          //renderer,
+          //player->x + (player->size/2),
+          //player->y + (player->size/2),
+          //rayX,
+          //rayY
+        //  );
 
   //VERTICAL LINE CHECKS
   if (fabs(sin(rayA)) > 0.001f) {
@@ -113,16 +122,32 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
         }
       }
     }
-        //draw ray from player to the end of the ray
-        SDL_SetRenderDrawColor(renderer, 255, 0, 255, 0);
-        SDL_RenderDrawLine(
-          renderer,
-          player->x + (player->size/2),
-          player->y + (player->size/2),
-          rayX,
-          rayY
-        );
+    distV = distance_two_points(player->x, player->y, rayX, rayY);
+    vx = rayX;
+    vy = rayY;
+    
 
+    SDL_SetRenderDrawColor(renderer, 255, 0, 255, 0);
+
+    //draws the shortest ray between the horizontal checker and the vertical checker
+    if (distH < distV) {
+      //draw ray from player to the end of the ray
+      SDL_RenderDrawLine(
+        renderer,
+        player->x + (player->size/2),
+        player->y + (player->size/2),
+        hx,
+        hy
+      );
+    }else{
+      SDL_RenderDrawLine(
+        renderer,
+        player->x + (player->size/2),
+        player->y + (player->size/2),
+        vx,
+        vy
+      );
     }
+  }
 }
 

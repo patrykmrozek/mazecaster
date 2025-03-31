@@ -26,3 +26,10 @@ double calc_delta_time() {
   }
   return dTime;
 }
+
+float distance_two_points(float x1, float y1, float x2, float y2) {
+  float x_sqr = (x2-x1)*(x2-x1);
+  float y_sqr = (y2-y1)*(y2-y1);
+  float dist = sqrt(x_sqr+y_sqr);
+  return dist;
+}
