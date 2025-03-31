@@ -2,6 +2,7 @@
 #include "window.h"
 #include "player.h"
 #include "renderer.h"
+#include "raycaster.h"
 #include "inputs.h"
 #include "map.h"
 #include "utils.h"
@@ -32,6 +33,7 @@ int main() {
     draw_player(renderer, &player);
     //printf("X: %f, Y: %f ANGLE: %f\n", player.x, player.y, player.a);
     get_user_inputs(window, &player);
+    cast_rays(renderer, &player);
     SDL_RenderPresent(renderer);
 
     printf("FPS: %f\n", 1.0/deltaTime);
