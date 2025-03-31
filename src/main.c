@@ -26,7 +26,7 @@ int main() {
         program_running = 0;
       }  
     }
-    double deltaTime = calc_delta_time();
+    //double deltaTime = calc_delta_time();
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);//clear screen
     draw_map(renderer);
@@ -36,7 +36,7 @@ int main() {
     cast_rays(renderer, &player);
     SDL_RenderPresent(renderer);
 
-    printf("FPS: %f\n", 1.0/deltaTime);
+    //printf("FPS: %f\n", 1.0/deltaTime);
   }
 
   SDL_DestroyRenderer(renderer);
