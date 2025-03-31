@@ -16,13 +16,19 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
   float distH;//horizontal rays
   float distV;//vertical rays
   float hx, hy, vx, vy; //store x and y of horiontal and vertical checks seperately
-
-  rayA = player->a;
+  rayA = player->a - (PI/6); //rays start 30 degrees to the left
   rayX = player->x;
   rayY = player->y;
 
+ 
+  if (rayA > 2*PI) {
+    rayA -= 2*PI;
+  }
+  if (rayA < 0) {
+    rayA += 2*PI;
+  }
 
-  for (int i=0; i<1; i++) {
+  for (int i=0; i<60; i++) {
     //sin(0)=0 and sin(PI)=0, so to prevent div by 0
     //fabsf calculates the floating absolute value, and in this case if it falls within the epsilon threshold,
     //it can be ruled as zero and therefore the ray is pointing approx directly left or right, and skipped
@@ -35,14 +41,14 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
       //HORIZONTAL LINE CHECKS 
       if (rayA > PI) { //if angle of ray is above 180deg, looking up
         // need to round the rays y position to the nearest TILE_SIZE
-        rayY = round(player->y / TILE_SIZE) * TILE_SIZE; //y position of the ray
+        rayY = floor(player->y / TILE_SIZE) * TILE_SIZE - 0.0001f; //floor and ceil makes sure the ray snaps to th right side of the wal
         rayX = (player->y - rayY) * aTan + player->x; //x position of the ray
         offsetY = -TILE_SIZE; //calculate y offset
         offsetX = -offsetY * aTan; // calculate x offset
       }
       if (rayA < PI) { //if angle of ray is below 180deg, looking down
         // need to round the rays y position to the nearest TILE_SIZE
-        rayY = round(player->y / TILE_SIZE) * TILE_SIZE + TILE_SIZE; //y position of the ray
+        rayY = ceil(player->y / TILE_SIZE) * TILE_SIZE + TILE_SIZE; //y position of the ray
         rayX = (player->y - rayY) * aTan + player->x; //x position of the ray
         offsetY = TILE_SIZE; //calculate y offset
         offsetX = -offsetY * aTan; // calculate x offset
@@ -52,7 +58,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
         mapX = (int)(rayX/TILE_SIZE);
         mapY = (int)(rayY/TILE_SIZE);
         // if the current map tile at mapX and mapY is within the map matrix
-        if (mapX > 0 && mapY > 0 && mapX < MAP_WIDTH && mapY < MAP_HEIGHT) {
+        if (mapX >= 0 && mapY >= 0 && mapX < MAP_WIDTH && mapY < MAP_HEIGHT) {
           //if it has hit a wall
           if (MAP[mapY][mapX] == 1) { // we hit a wall
             printf("MAPx: %d, MAPy: %d\n", mapX, mapY);
@@ -82,22 +88,22 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
         //  );
 
   //VERTICAL LINE CHECKS
-  if (fabs(sin(rayA)) > 0.001f) {
+  if (fabs(cos(rayA)) > 0.001f) {
       dof = 0;
       float nTan = -tan(rayA); //negative tan
       printf("RAY ANGLE: %f\n", rayA);
       printf("ATAN: %f\n", nTan);
 
-      if (rayA < PI2 || rayA > 3*PI2) { //if angle of ray is below 90deg OR above 270deg, looking right
+      if (rayA <= PI2 || rayA >= 3*PI2) { //if angle of ray is below 90deg OR above 270deg, looking right
         // need to round the rays x position to the nearest TILE_SIZE
-        rayX = round(player->x / TILE_SIZE) * TILE_SIZE + TILE_SIZE; //x position of the ray
+        rayX = floor(player->x / TILE_SIZE) * TILE_SIZE + TILE_SIZE - 0.0001f; //x position of the ray
         rayY = (player->x - rayX) * nTan + player->y; //y position of the ray
         offsetX = TILE_SIZE; //calculate y offset
         offsetY = -offsetX * nTan; // calculate x offset
       }
       if (rayA > PI2 && rayA < 3*PI2) { //if angle of ray is above 90deg and below 270deg, left
         // need to round the rays y position to the nearest TILE_SIZE
-        rayX = round(player->x / TILE_SIZE) * TILE_SIZE; //x position of the ray
+        rayX = ceil(player->x / TILE_SIZE) * TILE_SIZE; //x position of the ray
         rayY = (player->x - rayX) * nTan + player->y; //y position of the ray
         offsetX = -TILE_SIZE; //calculate y offset
         offsetY = -offsetX * nTan; // calculate x offset
@@ -139,7 +145,8 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
         hx,
         hy
       );
-    }else{
+    }
+    if (distV < distH) {
       SDL_RenderDrawLine(
         renderer,
         player->x + (player->size/2),
@@ -148,6 +155,18 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
         vy
       );
     }
+
+  rayA += (PI / 180); //add 1 degree in radians to the rays angle
+     
+  if (rayA > 2*PI) {
+    rayA -= 2*PI;
   }
+  if (rayA < 0) {
+    rayA += 2*PI;
+  }
+
+
+  }
+
 }
 
