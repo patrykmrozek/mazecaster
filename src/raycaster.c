@@ -26,6 +26,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
       float aTan = -cos(rayA) / sin(rayA); //calculates inverse of tan
       printf("RAY ANGLE: %f\n", rayA);
       printf("ATAN: %f\n", aTan);
+
       //HORIZONTAL LINE CHECKS 
       if (rayA > PI) { //if angle of ray is above 180deg, looking up
         // need to round the rays y position to the nearest TILE_SIZE
@@ -70,12 +71,58 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
           rayX,
           rayY
         );
-    }
-
 
   //VERTICAL LINE CHECKS
+  if (fabs(sin(rayA)) > 0.001f) {
+      dof = 0;
+      float nTan = -tan(rayA); //negative tan
+      printf("RAY ANGLE: %f\n", rayA);
+      printf("ATAN: %f\n", nTan);
 
+      if (rayA < PI2 || rayA > 3*PI2) { //if angle of ray is below 90deg OR above 270deg, looking right
+        // need to round the rays x position to the nearest TILE_SIZE
+        rayX = round(player->x / TILE_SIZE) * TILE_SIZE + TILE_SIZE; //x position of the ray
+        rayY = (player->x - rayX) * nTan + player->y; //y position of the ray
+        offsetX = TILE_SIZE; //calculate y offset
+        offsetY = -offsetX * nTan; // calculate x offset
+      }
+      if (rayA > PI2 && rayA < 3*PI2) { //if angle of ray is above 90deg and below 270deg, left
+        // need to round the rays y position to the nearest TILE_SIZE
+        rayX = round(player->x / TILE_SIZE) * TILE_SIZE; //x position of the ray
+        rayY = (player->x - rayX) * nTan + player->y; //y position of the ray
+        offsetX = -TILE_SIZE; //calculate y offset
+        offsetY = -offsetX * nTan; // calculate x offset
+      }
+      while (dof<8) { //just check within the bounds of the dof
+        //need to translate wall hit coordinates to location in the map matrix
+        mapX = (int)(rayX/TILE_SIZE);
+        mapY = (int)(rayY/TILE_SIZE);
+        // if the current map tile at mapX and mapY is within the map matrix
+        if (mapX > 0 && mapY > 0 && mapX < MAP_WIDTH && mapY < MAP_HEIGHT) {
+          //if it has hit a wall
+          if (MAP[mapY][mapX] == 1) { // we hit a wall
+            printf("MAPx: %d, MAPy: %d\n", mapX, mapY);
+            dof = 8;
+          } else { // otherwise extend the ray by offset x and y and increase dof
+            rayX += offsetX;
+            rayY += offsetY;
+            dof += 1;
+          }
+        } else {
+          dof = 8;
+        }
+      }
+    }
+        //draw ray from player to the end of the ray
+        SDL_SetRenderDrawColor(renderer, 255, 0, 255, 0);
+        SDL_RenderDrawLine(
+          renderer,
+          player->x + (player->size/2),
+          player->y + (player->size/2),
+          rayX,
+          rayY
+        );
+
+    }
 }
-
-
 
