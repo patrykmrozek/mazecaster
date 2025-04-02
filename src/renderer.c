@@ -5,6 +5,8 @@ void draw_player(SDL_Renderer* renderer, Player* player) {
   SDL_Rect playerRect = {player->x, player->y, player->size, player->size};
   SDL_SetRenderDrawColor(renderer, player->color.r, player->color.g, player->color.b, player->color.a);
   SDL_RenderFillRect(renderer, &playerRect);
+
+  /*
   //draw a line in the direction the player is facing
   float lineLength = 20.0f;
   //calulate the point in which the player is facing with length lineLength
@@ -18,6 +20,7 @@ void draw_player(SDL_Renderer* renderer, Player* player) {
     endX,
     endY
   );
+  */
 
 }
 

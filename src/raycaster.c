@@ -97,10 +97,10 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
         offsetY = -offsetX * nTan; // calculate x offset
       }
 
-      //start at the previous grid line (ceil - TILE_SIZE)
+      //start at the previous grid line (floor)
       if (rayA > PI2 && rayA < 3*PI2) { //if angle of ray is above 90deg and below 270deg, left
         // need to round the rays y position to the nearest TILE_SIZE
-        rayX = floor(player->x / TILE_SIZE) * TILE_SIZE; //x position of the ray 
+        rayX = floor(player->x / TILE_SIZE) * TILE_SIZE - 0.0001f; //x position of the ray 
         rayY = (player->x - rayX) * nTan + player->y; //y position of the ray
         offsetX = -TILE_SIZE; //calculate y offset
         offsetY = -offsetX * nTan; // calculate x offset
