@@ -1,14 +1,22 @@
 #include "raycaster.h"
 
-void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels) {
+void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, float rayA, Player* player) {
   /* 
   colNum - represents the current ray ('ray' value from for loop in cast_rays)
   rayDist - the shortest distance betweem distV and distH (the ray that will be rendered)
   pixels - how many pixels from left to right each ray will draw
   */
-  float lineH = (TILE_SIZE*320) / rayDist; // the further away the rayDist, the smaller the wall height will be 
-  if (lineH > 320) {lineH = 320;}
-  float lineO = (HEIGHT/2) - lineH/2; //line offset, 
+  float angleDiff = player->a - rayA; // diff between player angle and ray angle
+  //the rays that are out furthest from the player angle are going to have a greater distance
+  //making them smaller (causing the fisheye effect)
+  //normalize angleDiff
+  if (angleDiff < 0) {angleDiff += PI*2;}
+  if (angleDiff > PI*2) {angleDiff -= PI*2;}
+  //fixes fisheye effect by making all rays of equal distance
+  rayDist = rayDist * cos(angleDiff);
+  float lineH = (TILE_SIZE*HEIGHT) / rayDist; // the further away the rayDist, the smaller the wall height will be 
+  if (lineH > HEIGHT) {lineH = HEIGHT;}
+  float lineO = (HEIGHT/2) - lineH/2; //line offset, so that render is centered vertically on the screen 
 
   for (int i=0; i<pixels; i++) {
     SDL_RenderDrawLine(
@@ -193,7 +201,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
     }
 
     //render 3d scene 
-    draw_3d(renderer, ray, distT, 8);
+    draw_3d(renderer, ray, distT, 8, rayA, player);
 
   rayA += (PI / 180); //add 1 degree in radians to the rays angle
      
