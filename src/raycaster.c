@@ -1,35 +1,5 @@
 #include "raycaster.h"
 
-void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, float rayA, Player* player) {
-  /* 
-  colNum - represents the current ray ('ray' value from for loop in cast_rays)
-  rayDist - the shortest distance betweem distV and distH (the ray that will be rendered)
-  pixels - how many pixels from left to right each ray will draw
-  */
-  float angleDiff = player->a - rayA; // diff between player angle and ray angle
-  //the rays that are out furthest from the player angle are going to have a greater distance
-  //making them smaller (causing the fisheye effect)
-  //normalize angleDiff
-  if (angleDiff < 0) {angleDiff += PI*2;}
-  if (angleDiff > PI*2) {angleDiff -= PI*2;}
-  //fixes fisheye effect by making all rays of equal distance
-  rayDist = rayDist * cos(angleDiff);
-  float lineH = (TILE_SIZE*HEIGHT) / rayDist; // the further away the rayDist, the smaller the wall height will be 
-  if (lineH > HEIGHT) {lineH = HEIGHT;}
-  float lineO = (HEIGHT/2) - lineH/2; //line offset, so that render is centered vertically on the screen 
-
-  for (int i=0; i<pixels; i++) {
-    SDL_RenderDrawLine(
-      renderer,
-      (colNum*pixels) + (WIDTH/2) + i, // offsets the scene to the right of the incrememnted
-      lineO,
-      (colNum*pixels) + (WIDTH/2) + i,
-      lineH + lineO
-    );
-  }
-  
-}
-
 void cast_rays(SDL_Renderer* renderer, Player* player) {
   //DDA ALGORITHM
   //finds which squares a line hits
@@ -98,11 +68,9 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
         }
       }
     }
-    
     distH = dist(player->x, player->y, rayX, rayY);
     hx = rayX;
     hy = rayY;
-
     /*
         //draw ray from player to the end of the ray
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 0);
@@ -118,7 +86,6 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
   if (fabs(cos(rayA)) > 0.1f) {
       dof = 0;
       float nTan = -tan(rayA); //negative tan
-     
       //start at the nect grid line (floor + TILE_SIZE)
       if (rayA < PI2 || rayA > 3*PI2) { //if angle of ray is below 90deg OR above 270deg, looking right
         // need to round the rays x position to the nearest TILE_SIZE
@@ -127,7 +94,6 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
         offsetX = TILE_SIZE; //calculate y offset
         offsetY = -offsetX * nTan; // calculate x offset
       }
-
       //start at the previous grid line (floor)
       if (rayA > PI2 && rayA < 3*PI2) { //if angle of ray is above 90deg and below 270deg, left
         // need to round the rays y position to the nearest TILE_SIZE
@@ -172,11 +138,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
         );
     
 */
-
-
-
-    //draws the shortest ray between the horizontal checker and the vertical checker
-  
+    //draws the shortest ray between the horizontal checker and the vertical checker  
     printf("distH: %f, distV: %f\n", distH, distV);
     if (distH > distV) {
       distT = distV;
@@ -200,18 +162,13 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
       );
     }
 
-    //render 3d scene 
-    draw_3d(renderer, ray, distT, 8, rayA, player);
+  //render 3d scene 
+  draw_3d(renderer, ray, distT, 8, rayA, player);
 
   rayA += (PI / 180); //add 1 degree in radians to the rays angle
-     
   //normalize angles 
   rayA = fmod(rayA, 2*PI);
   if (rayA < 0) {rayA += 2*PI;}
-
-
-
   }
-
 }
 
