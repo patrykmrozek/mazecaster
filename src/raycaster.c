@@ -166,28 +166,29 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
 */
 
 
-    SDL_SetRenderDrawColor(renderer, 255, 0, 255, 0);
 
     //draws the shortest ray between the horizontal checker and the vertical checker
   
     printf("distH: %f, distV: %f\n", distH, distV);
-    if (distH < distV) {
-      distT = distH;
-      SDL_RenderDrawLine(
-        renderer,
-        player->x + (player->size/2),
-        player->y + (player->size/2),
-        hx,
-        hy
-      );
-    } else {
+    if (distH > distV) {
       distT = distV;
+      SDL_SetRenderDrawColor(renderer, 200, 0, 255, 0);
       SDL_RenderDrawLine(
         renderer,
         player->x + (player->size/2),
         player->y + (player->size/2),
         vx,
         vy
+      );
+    } else {
+      distT = distH;
+      SDL_SetRenderDrawColor(renderer, 255, 0, 255, 0);
+      SDL_RenderDrawLine(
+        renderer,
+        player->x + (player->size/2),
+        player->y + (player->size/2),
+        hx,
+        hy
       );
     }
 
