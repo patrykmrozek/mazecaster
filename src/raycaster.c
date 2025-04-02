@@ -1,5 +1,27 @@
 #include "raycaster.h"
 
+void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels) {
+  /* 
+  colNum - represents the current ray ('ray' value from for loop in cast_rays)
+  rayDist - the shortest distance betweem distV and distH (the ray that will be rendered)
+  pixels - how many pixels from left to right each ray will draw
+  */
+  float lineH = (TILE_SIZE*320) / rayDist; // the further away the rayDist, the smaller the wall height will be 
+  if (lineH > 320) {lineH = 320;}
+  float lineO = (HEIGHT/2) - lineH/2; //line offset, 
+
+  for (int i=0; i<pixels; i++) {
+    SDL_RenderDrawLine(
+      renderer,
+      (colNum*pixels) + (WIDTH/2) + i, // offsets the scene to the right of the incrememnted
+      lineO,
+      (colNum*pixels) + (WIDTH/2) + i,
+      lineH + lineO
+    );
+  }
+  
+}
+
 void cast_rays(SDL_Renderer* renderer, Player* player) {
   //DDA ALGORITHM
   //finds which squares a line hits
@@ -15,6 +37,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
   //store the distances from player to the end of ray for:
   float distH;//horizontal rays
   float distV;//vertical rays
+  float distT; //will hold the shorter of the two rays
   float hx, hy, vx, vy; //store x and y of horiontal and vertical checks seperately
   rayA = player->a - (PI/6); //rays start 30 degrees to the left
   rayX = player->x;
@@ -24,7 +47,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
   rayA = fmod(rayA, 2*PI);
   if (rayA < 0) {rayA += 2*PI;}
 
-  for (int i=0; i<60; i++) {
+  for (int ray=0; ray<60; ray++) {
     //sin(0)=0 and sin(PI)=0, so to prevent div by 0
     //fabsf calculates the floating absolute value, and in this case if it falls within the epsilon threshold,
     //it can be ruled as zero and therefore the ray is pointing approx directly left or right, and skipped
@@ -68,7 +91,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
       }
     }
     
-    distH = distance_two_points(player->x, player->y, rayX, rayY);
+    distH = dist(player->x, player->y, rayX, rayY);
     hx = rayX;
     hy = rayY;
 
@@ -126,7 +149,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
         }
       }
     }
-    distV = distance_two_points(player->x, player->y, rayX, rayY);
+    distV = dist(player->x, player->y, rayX, rayY);
     vx = rayX;
     vy = rayY;
         
@@ -149,7 +172,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
   
     printf("distH: %f, distV: %f\n", distH, distV);
     if (distH < distV) {
-      //draw ray from player to the end of the ray
+      distT = distH;
       SDL_RenderDrawLine(
         renderer,
         player->x + (player->size/2),
@@ -158,6 +181,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
         hy
       );
     } else {
+      distT = distV;
       SDL_RenderDrawLine(
         renderer,
         player->x + (player->size/2),
@@ -166,6 +190,9 @@ void cast_rays(SDL_Renderer* renderer, Player* player) {
         vy
       );
     }
+
+    //render 3d scene 
+    draw_3d(renderer, ray, distT, 8);
 
   rayA += (PI / 180); //add 1 degree in radians to the rays angle
      

@@ -9,6 +9,6 @@
 
 double deg_to_rad(double degrees);
 double calc_delta_time();
-float distance_two_points(float x1, float y1, float x2, float y2);
+float dist(float x1, float y1, float x2, float y2);
 
 #endif  
