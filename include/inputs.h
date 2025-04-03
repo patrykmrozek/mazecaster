@@ -4,6 +4,6 @@
 #include "window.h"
 #include "player.h"
 
-void get_user_inputs(SDL_Window* window, Player* player);
+void get_user_inputs(SDL_Window* window, Player* player, double deltaT);
 
 #endif

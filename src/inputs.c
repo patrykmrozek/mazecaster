@@ -1,9 +1,10 @@
 #include "inputs.h"
 
-void get_user_inputs(SDL_Window* window, Player* player) {
+void get_user_inputs(SDL_Window* window, Player* player, double deltaT) {
   const Uint8* keystate = SDL_GetKeyboardState(NULL);
-  float speed = 2.0f; // movement speed
-  float turnSpeed = 0.05f;
+  float speed = 150.0f * deltaT; // movement speed
+  float turnSpeed = 2.0f * deltaT;
+
   //
   if (keystate[SDL_SCANCODE_W]) {
     player->x += player->dx;
@@ -34,8 +35,8 @@ void get_user_inputs(SDL_Window* window, Player* player) {
       player->a += 2*PI;
     } 
       
-    player->dx=cos(player->a)*speed;
-    player->dy=sin(player->a)*speed;
+    player->dx=cos(player->a);
+    player->dy=sin(player->a);
   }
 
   if (keystate[SDL_SCANCODE_RIGHT]) {
@@ -44,8 +45,8 @@ void get_user_inputs(SDL_Window* window, Player* player) {
       player->a -= 2*PI;
     }
 
-    player->dx=cos(player->a)*speed;
-    player->dy=sin(player->a)*speed;
+    player->dx=cos(player->a);
+    player->dy=sin(player->a);
   }
   
 }
