@@ -8,8 +8,24 @@
 #include "inputs.h"
 #include "map.h"
 #include "utils.h"
+#include "graph.h"
 
 int main() {
+  /*
+  Graph* graph = create_graph(10);
+  printf("graph created\n");
+  add_edge(graph, 0, 1);
+  add_edge(graph, 0, 2);
+  add_edge(graph, 0, 3);
+  add_edge(graph, 1, 5);
+  add_edge(graph, 6, 0);
+  add_edge(graph, 2, 3);
+  add_edge(graph, 7, 0);
+  printf("edges added\n");
+  print_graph(graph);
+  destroy_graph(graph);
+  printf("graph destroyed\n");
+  */
 
   /*
   Stack* stack = create_stack(10);

@@ -1,5 +1,5 @@
-#ifndef DLL_H
-#define DLL_H
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
 
 #include <stdbool.h>
 

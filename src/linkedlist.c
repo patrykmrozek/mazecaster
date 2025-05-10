@@ -1,4 +1,4 @@
-#include "dll.h"
+#include "linkedlist.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -27,8 +27,8 @@ dll* create_dll() {
     }
   
   //initialize head and tail
-  list->head = _create_node(0, NULL, NULL);
-  list->tail = _create_node(0, NULL, NULL);
+  list->head = _create_node(-1, NULL, NULL);
+  list->tail = _create_node(-1, NULL, NULL);
   
   //if malloc failed, return null
   if (!list->head || !list->tail) {
@@ -67,6 +67,7 @@ void add_first(dll* list, int item) {
 //add node before the tail
 void add_last(dll* list, int item) {
   if (!list) return;
+  //printf("Adding last: %d\n", item);
   add_after(list, item, list->tail->prev);
 }
 
@@ -117,7 +118,9 @@ bool list_contains(dll* list, int value) {
 
   Node* current = list->head;
   while (current != NULL) {
+    //printf("checking node with value: %d\n", value);
     if (current->data == value) return true;
+    current = current->next;
   }
   return false;
 }
@@ -127,10 +130,12 @@ void print_dll(dll* list) {
     if (!list) return;
 
     Node* n = list->head->next;
+    printf("[-");
     while (n != list->tail) {
-      printf("%d\n", n->data);
+      printf("%d-", n->data);
       n = n->next;
     }
+  printf("]\n");
   }
 
 //frees up the allocated memory
