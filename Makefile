@@ -12,7 +12,8 @@ SRC_FILES = $(SRC_DIR)/main.c \
             $(SRC_DIR)/renderer.c \
             $(SRC_DIR)/raycaster.c \
 						$(SRC_DIR)/utils.c \
-						$(SRC_DIR)/inputs.c
+						$(SRC_DIR)/inputs.c \
+						$(SRC_DIR)/stack.c
 
 OBJ_FILES = $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

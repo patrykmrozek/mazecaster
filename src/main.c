@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 #include "window.h"
 #include "player.h"
 #include "renderer.h"
@@ -8,7 +10,16 @@
 #include "utils.h"
 
 int main() {
-  
+
+  /*
+  Stack* stack = create_stack(10);
+  push(stack, 5);
+  push(stack, 7);
+  int peek_v = 0;
+  peek(stack, &peek_v);
+  printf("%d \n", peek_v);
+*/
+
   SDL_Window* window = init_window();
   SDL_Renderer* renderer = get_renderer(window);
   Player player;
