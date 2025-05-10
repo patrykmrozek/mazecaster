@@ -18,6 +18,7 @@ int main() {
   int peek_v = 0;
   peek(stack, &peek_v);
   printf("%d \n", peek_v);
+  destroy_stack(stack);
 */
 
   SDL_Window* window = init_window();
