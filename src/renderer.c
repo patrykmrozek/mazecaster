@@ -54,6 +54,57 @@ void draw_map(SDL_Renderer* renderer, Map* map, int tile_draw_size) {
   }
 }
 
+
+//instead of drawing map every frame, cache it to a texture and copy texture to the renderer every frame
+SDL_Texture* cache_map(SDL_Renderer* renderer, Map* map, int tile_draw_size, SDL_Rect* out_rect) {
+  int width = map->width * tile_draw_size;
+  int height = map->height * tile_draw_size;
+
+  SDL_Texture* map_texture = SDL_CreateTexture(
+    renderer,
+    SDL_PIXELFORMAT_RGBA8888,
+    SDL_TEXTUREACCESS_TARGET,
+    width,
+    height
+  );
+
+  if (!map_texture) {
+    printf("map texture failed\n");
+    return NULL;
+  }
+
+  SDL_SetRenderTarget(renderer, map_texture); //set target to map texture
+  SDL_RenderClear(renderer);
+  
+  for (int y = 0; y < map->height; y++) {
+    for (int x = 0; x < map->width; x++) {
+      if (map->grid[y][x] == 1) {
+        SDL_Rect wall = {
+          x*tile_draw_size,
+          y*tile_draw_size,
+          tile_draw_size,
+          tile_draw_size
+        };
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderFillRect(renderer, &wall);
+
+      }
+    }
+  }
+
+  SDL_SetRenderTarget(renderer, NULL); //reset rendering back to screen
+
+  if (out_rect) {
+    out_rect->x = 0;
+    out_rect->y = 0;
+    out_rect->w = width;
+    out_rect->h = height;
+  }
+
+  return map_texture;
+
+}
+
 void draw_bg(SDL_Renderer* renderer, Map* map) {
   SDL_Rect floor = {
     WIDTH/2,

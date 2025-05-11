@@ -9,7 +9,7 @@ void init_player(Player* player, Map* map) {
     .dy = PDY_INIT,
     .a = deg_to_rad(0),
     .size = PLAYER_SIZE,
-    COLOR_WHITE
+    COLOR_RED
   }; 
 }  
 

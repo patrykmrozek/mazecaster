@@ -15,6 +15,7 @@ typedef struct {
 } Color;
 
 #define COLOR_WHITE (Color){255, 255, 255, 255}
+#define COLOR_RED (Color){255, 0, 0, 255}
 
 typedef struct {
   //x, y, deltaX, deltaY, angle, size
