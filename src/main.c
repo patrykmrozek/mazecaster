@@ -11,31 +11,7 @@
 #include "graph.h"
 
 int main() {
-  /*
-  Graph* graph = create_graph(10);
-  printf("graph created\n");
-  add_edge(graph, 0, 1);
-  add_edge(graph, 0, 2);
-  add_edge(graph, 0, 3);
-  add_edge(graph, 1, 5);
-  add_edge(graph, 6, 0);
-  add_edge(graph, 2, 3);
-  add_edge(graph, 7, 0);
-  printf("edges added\n");
-  print_graph(graph);
-  destroy_graph(graph);
-  printf("graph destroyed\n");
-  */
-
-  /*
-  Stack* stack = create_stack(10);
-  push(stack, 5);
-  push(stack, 7);
-  int peek_v = 0;
-  peek(stack, &peek_v);
-  printf("%d \n", peek_v);
-  destroy_stack(stack);
-*/
+  generate_maze(10);
 
   SDL_Window* window = init_window();
   SDL_Renderer* renderer = get_renderer(window);
