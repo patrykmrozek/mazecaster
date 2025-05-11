@@ -17,15 +17,19 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
   float distV;//vertical rays
   float distT; //will hold the shorter of the two rays
   //float hx, hy, vx, vy; //store x and y of horiontal and vertical checks seperately
-  rayA = player->a - (PI/6); //rays start 30 degrees to the left
+  int pixels = 8; //how many pixels each ray will take up
+  int num_rays = (WIDTH/2)/pixels; //number of rays required to fill up WIDTH/2 of the screen 
+  float fov = deg_to_rad(60); //fov = 60degrees in radianas
+  float step = fov/num_rays; //how much each ray will step 
   rayX = player->x;
   rayY = player->y;
-  
-  //normalize angles 
-  rayA = fmod(rayA, 2*PI);
-  if (rayA < 0) {rayA += 2*PI;}
+   for (int ray=0; ray<num_rays; ray++) {
+    rayA = player->a - fov/2 + ray * step; //starts half of the fov to the left, and steps right for each step
+     
+    //normalize angles 
+    rayA = fmod(rayA, 2*PI);
+    if (rayA < 0) {rayA += 2*PI;}
 
-  for (int ray=0; ray<60; ray++) {
     //sin(0)=0 and sin(PI)=0, so to prevent div by 0
     //fabsf calculates the floating absolute value, and in this case if it falls within the epsilon threshold,
     //it can be ruled as zero and therefore the ray is pointing approx directly left or right, and skipped
@@ -166,9 +170,9 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
     }
 
   //render 3d scene 
-  draw_3d(renderer, ray, distT, 8, rayA, player, map);
+  draw_3d(renderer, ray, distT, pixels, rayA, player, map);
 
-  rayA += (PI / 180); //add 1 degree in radians to the rays angle
+  rayA += deg_to_rad(step); //add 1 degree in radians to the rays angle
 
   //normalize angles 
   rayA = fmod(rayA, 2*PI);

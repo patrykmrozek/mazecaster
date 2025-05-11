@@ -43,6 +43,7 @@ int main() {
   }
     draw_map(renderer, map, tile_draw_size);
     draw_player(renderer, &player, map, tile_draw_size);
+    draw_bg(renderer, map);
     //printf("X: %f, Y: %f ANGLE: %f\n", player.x, player.y, player.a);
     get_user_inputs(window, &player, deltaTime);
     cast_rays(renderer, &player, map);

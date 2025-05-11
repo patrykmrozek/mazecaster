@@ -54,13 +54,24 @@ void draw_map(SDL_Renderer* renderer, Map* map, int tile_draw_size) {
   }
 }
 
+void draw_bg(SDL_Renderer* renderer, Map* map) {
+  SDL_Rect floor = {
+    WIDTH/2,
+    HEIGHT/2,
+    WIDTH/2,
+    HEIGHT/2
+  };
+  SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
+  SDL_RenderFillRect(renderer, &floor);
+}
+
 
 void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, float rayA, Player* player, Map* map) {
   /* 
   colNum - represents the current ray ('ray' value from for loop in cast_rays)
   rayDist - the shortest distance betweem distV and distH (the ray that will be rendered)
   pixels - how many pixels from left to right each ray will draw
-  */
+  */ 
   float angleDiff = player->a - rayA; // diff between player angle and ray angle
   //the rays that are out furthest from the player angle are going to have a greater distance
   //making them smaller (causing the fisheye effect)
@@ -69,10 +80,10 @@ void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, floa
   if (angleDiff > PI*2) {angleDiff -= PI*2;}
   //fixes fisheye effect by making all rays of equal distance
   rayDist = rayDist * cos(angleDiff);
-  float lineH = (map->tile_size*(5*HEIGHT)/6) / rayDist; // the further away the rayDist, the smaller the wall height will be 
-  if (lineH > (5*HEIGHT)/6) {lineH = (5*HEIGHT)/6;}
+  float lineH = (map->tile_size*HEIGHT) / rayDist; // the further away the rayDist, the smaller the wall height will be 
+  if (lineH > HEIGHT) {lineH = HEIGHT;}
   float lineO = (HEIGHT/2) - lineH/2; //line offset, so that render is centered vertically on the screen 
-
+ 
   for (int i=0; i<pixels; i++) {
     SDL_RenderDrawLine(
       renderer,
