@@ -1,16 +1,16 @@
 #include "player.h"
 
-void init_player(Player* player) {
+void init_player(Player* player, Map* map) {
   *player = (Player)
   {
-    .x = WIDTH/4,
-    .y = HEIGHT/2,
+    .x = map->tile_size,
+    .y = map->tile_size,
     .dx = PDX_INIT,
     .dy = PDY_INIT,
-    .a = 0,
+    .a = deg_to_rad(45),
     .size = PLAYER_SIZE,
     COLOR_WHITE
-  };
+  }; 
 }  
 
 

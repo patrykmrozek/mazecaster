@@ -3,6 +3,7 @@
 
 #include "window.h"
 #include "utils.h"
+#include "map.h"
 
 #define PLAYER_SIZE 10
 #define PDX_INIT cos(player->a)*3
@@ -21,6 +22,6 @@ typedef struct {
   Color color;
 } Player;
 
-void init_player(Player* player);
+void init_player(Player* player, Map* map);
 
 #endif

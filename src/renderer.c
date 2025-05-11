@@ -1,7 +1,14 @@
 #include "renderer.h"
 
-void draw_player(SDL_Renderer* renderer, Player* player) {
-  SDL_Rect playerRect = {player->x, player->y, player->size, player->size};
+void draw_player(SDL_Renderer* renderer, Player* player, Map* map, int tile_draw_size) {
+  int offset_x = (WIDTH/2 - (map->width*tile_draw_size)) /2;
+  int offset_y = (HEIGHT - map->height*tile_draw_size) /2;
+  SDL_Rect playerRect = {
+    offset_x + (player->x * tile_draw_size / map->tile_size),
+    offset_y + (player->y * tile_draw_size / map->tile_size),
+    player->size * tile_draw_size*2 / map->tile_size,
+    player->size * tile_draw_size*2 / map->tile_size
+  };
   SDL_SetRenderDrawColor(renderer, player->color.r, player->color.g, player->color.b, player->color.a);
   SDL_RenderFillRect(renderer, &playerRect);
 
@@ -22,21 +29,31 @@ void draw_player(SDL_Renderer* renderer, Player* player) {
   */
 
 }
-/*
-void draw_map(SDL_Renderer* renderer, Map* map) {
+
+void draw_map(SDL_Renderer* renderer, Map* map, int tile_draw_size) {
+  int offset_x = (WIDTH/2 - (map->width*tile_draw_size)) /2;
+  int offset_y = (HEIGHT - map->height*tile_draw_size) /2;
   for (int y=0; y<map->height; y++) {
     for (int x=0; x<map->width; x++) {
       // rect is going to be the block size * the block num
-      SDL_Rect wall = {x*map->tile_size, y*map->tile_size, map->tile_size, map->tile_size};
+      SDL_Rect tile = {
+        offset_x + x*tile_draw_size,
+        offset_y + y*tile_draw_size,
+        tile_draw_size,
+        tile_draw_size
+      };
+        SDL_SetRenderDrawColor(renderer, 20, 20, 20, 255); //set color to white
+        SDL_RenderFillRect(renderer, &tile);
+
       // if the current block is 1 (a wall), draw a white rect 
       if (map->grid[y][x]==1) {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); //set color to white
-        SDL_RenderFillRect(renderer, &wall);
+        SDL_RenderFillRect(renderer, &tile);
       }
     }
   }
 }
-*/
+
 
 void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, float rayA, Player* player, Map* map) {
   /* 

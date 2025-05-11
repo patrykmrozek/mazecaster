@@ -16,7 +16,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
   float distH;//horizontal rays
   float distV;//vertical rays
   float distT; //will hold the shorter of the two rays
-  float hx, hy, vx, vy; //store x and y of horiontal and vertical checks seperately
+  //float hx, hy, vx, vy; //store x and y of horiontal and vertical checks seperately
   rayA = player->a - (PI/6); //rays start 30 degrees to the left
   rayX = player->x;
   rayY = player->y;
@@ -46,7 +46,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
         offsetY = map->tile_size;
         offsetX = -offsetY * aTan;
       }
-      while (dof<8) { //just check within the bounds of the dof
+      while (dof<map->width) { //just check within the bounds of the dof
         //need to translate wall hit coordinates to location in the map matrix
         mapX = (int)(rayX/map->tile_size);
         mapY = (int)(rayY/map->tile_size);
@@ -55,20 +55,20 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
           //if it has hit a wall
           if (map->grid[mapY][mapX] == 1) {
    //         printf("map->gridx: %d, map->gridy: %d\n", mapX, mapY);
-            dof = 8; //break the while loop
+            dof = map->width; //break the while loop
           } else { // otherwise check the next horizontal grid line
             rayX += offsetX;
             rayY += offsetY;
             dof += 1;
           }
         } else {
-          dof = 8;
+          dof = map->width;
         }
       }
     }
     distH = dist(player->x, player->y, rayX, rayY); //dist from player to end of horizontal-checking ray
-    hx = rayX;
-    hy = rayY;
+    //hx = rayX;
+    //hy = rayY;
     /*
         //draw ray from player to the end of the ray
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 0);
@@ -99,7 +99,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
         offsetX = -map->tile_size; //calculate y offset
         offsetY = -offsetX * nTan; // calculate x offset
       }
-      while (dof<8) {
+      while (dof<map->width) {
         //printf("Angle: %.2f° nTan: %.2f offsetX: %.2f offsetY: %.2f\n", rayA * 180/PI, nTan, offsetX, offsetY);
         //printf("Start: (%.2f,%.2f) End: (%.2f,%.2f)\n", player->x, player->y, rayX, rayY);
         //need to translate wall hit coordinates to location in the map matrix
@@ -109,23 +109,23 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
         if (mapX >= 0 && mapY >= 0 && mapX < map->width && mapY < map->height) {
           //if it has hit a wall
           if (map->grid[mapY][mapX] == 1) { 
-            dof = 8;
+            dof = map->width;
           } else { //otherwise check the next vertcal grid line
             rayX += offsetX;
             rayY += offsetY;
             dof += 1;
           }
         } else {
-          dof = 8;
+          dof = map->width;
         }
       }
     }
     distV = dist(player->x, player->y, rayX, rayY);//dist from player to end of vertical-checking ray
-    vx = rayX;
-    vy = rayY;
+    //vx = rayX;
+    //vy = rayY;
         
- /* 
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+    /*
         SDL_RenderDrawLine(
           renderer,
           player->x + (player->size/2),
@@ -139,7 +139,9 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
     //printf("distH: %f, distV: %f\n", distH, distV);
     if (distH > distV) {
       distT = distV;
+  
       SDL_SetRenderDrawColor(renderer, 200, 0, 255, 0);
+      /*
       SDL_RenderDrawLine(
         renderer,
         player->x + (player->size/2),
@@ -147,9 +149,12 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
         vx,
         vy
       );
+      */
     } else {
       distT = distH;
+
       SDL_SetRenderDrawColor(renderer, 255, 0, 255, 0);
+      /*
       SDL_RenderDrawLine(
         renderer,
         player->x + (player->size/2),
@@ -157,6 +162,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
         hx,
         hy
       );
+    */
     }
 
   //render 3d scene 
