@@ -1,5 +1,4 @@
 #include "renderer.h"
-#include "map.h"
 
 void draw_player(SDL_Renderer* renderer, Player* player) {
   SDL_Rect playerRect = {player->x, player->y, player->size, player->size};
@@ -23,23 +22,23 @@ void draw_player(SDL_Renderer* renderer, Player* player) {
   */
 
 }
-
-void draw_map(SDL_Renderer* renderer) {
-  for (int y=0; y<MAP_HEIGHT; y++) {
-    for (int x=0; x<MAP_WIDTH; x++) {
+/*
+void draw_map(SDL_Renderer* renderer, Map* map) {
+  for (int y=0; y<map->height; y++) {
+    for (int x=0; x<map->width; x++) {
       // rect is going to be the block size * the block num
-      SDL_Rect wall = {x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE};
+      SDL_Rect wall = {x*map->tile_size, y*map->tile_size, map->tile_size, map->tile_size};
       // if the current block is 1 (a wall), draw a white rect 
-      if (MAP[y][x]==1) {
+      if (map->grid[y][x]==1) {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); //set color to white
         SDL_RenderFillRect(renderer, &wall);
       }
     }
   }
 }
+*/
 
-
-void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, float rayA, Player* player) {
+void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, float rayA, Player* player, Map* map) {
   /* 
   colNum - represents the current ray ('ray' value from for loop in cast_rays)
   rayDist - the shortest distance betweem distV and distH (the ray that will be rendered)
@@ -53,7 +52,7 @@ void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, floa
   if (angleDiff > PI*2) {angleDiff -= PI*2;}
   //fixes fisheye effect by making all rays of equal distance
   rayDist = rayDist * cos(angleDiff);
-  float lineH = (TILE_SIZE*(5*HEIGHT)/6) / rayDist; // the further away the rayDist, the smaller the wall height will be 
+  float lineH = (map->tile_size*(5*HEIGHT)/6) / rayDist; // the further away the rayDist, the smaller the wall height will be 
   if (lineH > (5*HEIGHT)/6) {lineH = (5*HEIGHT)/6;}
   float lineO = (HEIGHT/2) - lineH/2; //line offset, so that render is centered vertically on the screen 
 
