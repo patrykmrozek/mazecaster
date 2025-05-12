@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 #include "window.h"
 #include "player.h"
 #include "renderer.h"
@@ -11,11 +12,13 @@
 #include "graph.h"
 
 int main() {
+  //seeds random generator with current time, avoids deterministic maze generation
+  srand(time(NULL));
 
   SDL_Window* window = init_window();
   SDL_Renderer* renderer = get_renderer(window);
   Player player;
-  Map* map = generate_maze(10);
+  Map* map = generate_maze(5);
   init_player(&player, map);
   SDL_RaiseWindow(window); //needed for the window to appear above all other windows
   SDL_PumpEvents();
@@ -64,6 +67,7 @@ int main() {
 
     //printf("FPS: %f\n", 1.0/deltaTime);
   }
+  destroy_map(map);
   SDL_DestroyTexture(cached_map);
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);

@@ -25,6 +25,7 @@ typedef struct {
 
 Map* generate_maze(int n);
 void _generate_maze(Map* map, bool* visited, int row, int col, int size, int n);
+void destroy_map(Map* map);
 
 #endif
 

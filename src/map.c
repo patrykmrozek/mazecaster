@@ -102,6 +102,14 @@ void _generate_maze(Map* map, bool* visited, int row, int col, int size, int n) 
 
 }
 
+void destroy_map(Map* map) {
+  //free map
+  for (int i = 0; i < map->height; i++) {
+    free(map->grid[i]);
+  }
+  free(map->grid);
+  free(map);
+}
 
 
 
