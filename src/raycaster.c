@@ -1,6 +1,6 @@
 #include "raycaster.h"
 
-void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
+void cast_rays(SDL_Renderer* renderer, Player* player, Map* map, SDL_Rect* map_rect) {
   //DDA ALGORITHM
   //finds which squares a line hits
   //first checks all horizontal grid lines from player in the direction of a ray for all rays 
@@ -16,7 +16,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
   float distH;//horizontal rays
   float distV;//vertical rays
   float distT; //will hold the shorter of the two rays
-  //float hx, hy, vx, vy; //store x and y of horiontal and vertical checks seperately
+  float hx, hy, vx, vy; //store x and y of horiontal and vertical checks seperately
   int pixels = 8; //how many pixels each ray will take up
   int num_rays = (WIDTH/2)/pixels; //number of rays required to fill up WIDTH/2 of the screen 
   float fov = deg_to_rad(60); //fov = 60degrees in radianas
@@ -71,8 +71,8 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
       }
     }
     distH = dist(player->x, player->y, rayX, rayY); //dist from player to end of horizontal-checking ray
-    //hx = rayX;
-    //hy = rayY;
+    hx = rayX;
+    hy = rayY;
     /*
         //draw ray from player to the end of the ray
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 0);
@@ -125,8 +125,8 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
       }
     }
     distV = dist(player->x, player->y, rayX, rayY);//dist from player to end of vertical-checking ray
-    //vx = rayX;
-    //vy = rayY;
+    vx = rayX;
+    vy = rayY;
         
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
     /*
@@ -141,32 +141,58 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map) {
 */
     //draws the shortest ray between the horizontal checker and the vertical checker  
     //printf("distH: %f, distV: %f\n", distH, distV);
+    
+    //normalization divisor
+    float ndivw = (float)(map->width * map->tile_size);
+    float ndivh = (float)(map->height * map->tile_size);
+    
+    //normalize player x and y
+    float npx = player->x / ndivw;
+    float npy = player->y / ndivh;
+    //normalize vx and vy
+    float nvx = vx/ndivw;
+    float nvy = vy/ndivh;
+    //normalize hx and hy
+    float nhx = hx/ndivw;
+    float nhy = hy/ndivh;
+
+    //translated player coords
+    int tpx = map_rect->x + (int)(npx * map_rect->w);
+    int tpy = map_rect->y + (int)(npy * map_rect->h);
+
+    int tvx = map_rect->x + (int)(nvx * map_rect->w);
+    int tvy = map_rect->y + (int)(nvy * map_rect->h);
+
+    int thx = map_rect->x + (int)(nhx * map_rect->w);
+    int thy = map_rect->x + (int)(nhy * map_rect->h);
+
+
     if (distH > distV) {
       distT = distV;
   
       SDL_SetRenderDrawColor(renderer, 200, 0, 255, 0);
-      /*
+
       SDL_RenderDrawLine(
         renderer,
-        player->x + (player->size/2),
-        player->y + (player->size/2),
-        vx,
-        vy
+        tpx,
+        tpy,
+        tvx,
+        tvy
       );
-      */
+      
     } else {
       distT = distH;
 
       SDL_SetRenderDrawColor(renderer, 255, 0, 255, 0);
-      /*
+      
       SDL_RenderDrawLine(
         renderer,
-        player->x + (player->size/2),
-        player->y + (player->size/2),
-        hx,
-        hy
+        tpx,
+        tpy,
+        thx,
+        thy
       );
-    */
+    
     }
 
   //render 3d scene 

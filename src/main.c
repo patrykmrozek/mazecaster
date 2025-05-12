@@ -59,7 +59,7 @@ int main() {
     draw_bg(renderer);
     //printf("X: %f, Y: %f ANGLE: %f\n", player.x, player.y, player.a);
     get_user_inputs(window, &player, deltaTime);
-    cast_rays(renderer, &player, map);
+    cast_rays(renderer, &player, map, &map_rect);
     SDL_RenderPresent(renderer);
 
     //printf("FPS: %f\n", 1.0/deltaTime);

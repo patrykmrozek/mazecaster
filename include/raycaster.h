@@ -7,7 +7,7 @@
 #include "renderer.h"
 #include "utils.h"
 
-void cast_rays(SDL_Renderer* renderer, Player* player, Map* map);
+void cast_rays(SDL_Renderer* renderer, Player* player, Map* map, SDL_Rect* map_rect);
 
 #endif
 

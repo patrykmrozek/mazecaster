@@ -13,8 +13,8 @@ void draw_player(SDL_Renderer* renderer, Player* player, Map* map, SDL_Rect* map
   //scales player size based on scaling of minimap
   float p_size = map_rect->w/map->width/2;
 
-  printf("Player world: %.1f, %.1f\n", player->x, player->y);
-  printf("Player minimap: %d, %d\n", px, py);
+  //printf("Player world: %.1f, %.1f\n", player->x, player->y);
+  //printf("Player minimap: %d, %d\n", px, py);
 
   SDL_Rect playerRect = {px-(p_size/2), py-(p_size/2), p_size, p_size};
   SDL_SetRenderDrawColor(renderer, player->color.r, player->color.g, player->color.b, player->color.a);
