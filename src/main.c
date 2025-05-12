@@ -15,7 +15,7 @@ int main() {
   SDL_Window* window = init_window();
   SDL_Renderer* renderer = get_renderer(window);
   Player player;
-  Map* map = generate_maze(20);
+  Map* map = generate_maze(10);
   init_player(&player, map);
   SDL_RaiseWindow(window); //needed for the window to appear above all other windows
   SDL_PumpEvents();
@@ -30,10 +30,10 @@ int main() {
   }
     //draw_map(renderer, map, tile_draw_size);
 
-  SDL_Rect map_rect;
   //scales map without distortion
   float map_aspect = (float)map->width/map->height;
-
+  
+  SDL_Rect map_rect;
   map_rect.w = WIDTH/2;
   map_rect.h = (int)(map_rect.w/map_aspect);
   map_rect.x = 0;
@@ -54,8 +54,9 @@ int main() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);//clear screen
     SDL_RenderCopy(renderer, cached_map, NULL, &map_rect);//copy map texture to renderer instead of redrawing every frame
-    draw_player(renderer, &player, map, tile_draw_size);
-    draw_bg(renderer, map);
+    draw_player(renderer, &player, map, &map_rect);
+    //printf("X: %f, Y: %f\n", player.x, player.y);
+    draw_bg(renderer);
     //printf("X: %f, Y: %f ANGLE: %f\n", player.x, player.y, player.a);
     get_user_inputs(window, &player, deltaTime);
     cast_rays(renderer, &player, map);

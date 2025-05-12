@@ -30,9 +30,9 @@ Map* generate_maze(int n) {
 
   //dynamically sized matrix
   Map* map = malloc(sizeof(Map));
-  map->width = size;
-  map->height = size;
-  map->tile_size = 64;
+  map->width = size; //number of tiles
+  map->height = size; //number of tiles
+  map->tile_size = 64; //tile size in world units
 
   map->grid = malloc(sizeof(int*)*size);
   for (int i = 0; i < size; i++) {

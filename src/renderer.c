@@ -1,14 +1,22 @@
 #include "renderer.h"
 
-void draw_player(SDL_Renderer* renderer, Player* player, Map* map, int tile_draw_size) {
-  int offset_x = (WIDTH/2 - (map->width*tile_draw_size)) /2;
-  int offset_y = (HEIGHT - map->height*tile_draw_size) /2;
-  SDL_Rect playerRect = {
-    offset_x + (player->x * tile_draw_size / map->tile_size),
-    offset_y + (player->y * tile_draw_size / map->tile_size),
-    player->size * tile_draw_size*2 / map->tile_size,
-    player->size * tile_draw_size*2 / map->tile_size
-  };
+void draw_player(SDL_Renderer* renderer, Player* player, Map* map, SDL_Rect* map_rect) {
+
+  //normalize player c and y to (0, 1) of original maze
+  float nx = player->x / (float)(map->width * map->tile_size);
+  float ny = player->y / (float)(map->height * map->tile_size);
+
+  //maps normalized position into screen coordinates, relative to map_rect
+  int px = map_rect->x + (int)(nx * map_rect->w);
+  int py = map_rect->y + (int)(ny * map_rect->h);
+  
+  //scales player size based on scaling of minimap
+  float p_size = map_rect->w/map->width/2;
+
+  printf("Player world: %.1f, %.1f\n", player->x, player->y);
+  printf("Player minimap: %d, %d\n", px, py);
+
+  SDL_Rect playerRect = {px-(p_size/2), py-(p_size/2), p_size, p_size};
   SDL_SetRenderDrawColor(renderer, player->color.r, player->color.g, player->color.b, player->color.a);
   SDL_RenderFillRect(renderer, &playerRect);
 
@@ -105,15 +113,24 @@ SDL_Texture* cache_map(SDL_Renderer* renderer, Map* map, int tile_draw_size, SDL
 
 }
 
-void draw_bg(SDL_Renderer* renderer, Map* map) {
+void draw_bg(SDL_Renderer* renderer) {
   SDL_Rect floor = {
     WIDTH/2,
     HEIGHT/2,
     WIDTH/2,
     HEIGHT/2
   };
+
+  SDL_Rect roof = {
+    WIDTH/2,
+    0,
+    WIDTH/2,
+    HEIGHT/2
+  };
   SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
   SDL_RenderFillRect(renderer, &floor);
+  SDL_SetRenderDrawColor(renderer, 150, 0, 100, 50);
+  SDL_RenderFillRect(renderer, &roof);
 }
 
 

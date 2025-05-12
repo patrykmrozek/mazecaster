@@ -7,13 +7,13 @@ void get_user_inputs(SDL_Window* window, Player* player, double deltaT) {
 
   //
   if (keystate[SDL_SCANCODE_W]) {
-    player->x += player->dx;
-    player->y += player->dy;
+    player->x += player->dx * speed;
+    player->y += player->dy * speed;
   };
 
   if (keystate[SDL_SCANCODE_S]) {
-    player->x -= player->dx;
-    player->y -= player->dy;
+    player->x -= player->dx * speed;
+    player->y -= player->dy * speed;
   }
 
   
