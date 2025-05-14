@@ -17,7 +17,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map, SDL_Rect* map_r
   float distV;//vertical rays
   float distT; //will hold the shorter of the two rays
   float hx, hy, vx, vy; //store x and y of horiontal and vertical checks seperately
-  int pixels = 8; //how many pixels each ray will take up
+  int pixels = 5; //how many pixels each ray will take up
   int num_rays = (WIDTH/2)/pixels; //number of rays required to fill up WIDTH/2 of the screen 
   float fov = deg_to_rad(60); //fov = 60degrees in radianas
   float step = fov/num_rays; //how much each ray will step 
@@ -166,34 +166,30 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map, SDL_Rect* map_r
     int thx = map_rect->x + (int)(nhx * map_rect->w);
     int thy = map_rect->x + (int)(nhy * map_rect->h);
 
+    float brightness;
+
 
     if (distH > distV) {
       distT = distV;
+      brightness = 1.0f - (distT/((dof/2)*map->tile_size));
+      if (brightness<0) brightness=0;
+      if (brightness>1) brightness=1;
   
-      SDL_SetRenderDrawColor(renderer, 200, 0, 255, 0);
-
-      SDL_RenderDrawLine(
-        renderer,
-        tpx,
-        tpy,
-        tvx,
-        tvy
-      );
+      SDL_SetRenderDrawColor(renderer, 200*brightness, 0, 255*brightness, 0);
+      SDL_RenderDrawLine(renderer, tpx, tpy, tvx, tvy);
       
     } else {
       distT = distH;
+      brightness = 1.0f - (distT/((dof/2)*map->tile_size));
+      if (brightness<0) brightness=0;
+      if (brightness>1) brightness=1;
 
-      SDL_SetRenderDrawColor(renderer, 255, 0, 255, 0);
-      
-      SDL_RenderDrawLine(
-        renderer,
-        tpx,
-        tpy,
-        thx,
-        thy
-      );
-    
+      SDL_SetRenderDrawColor(renderer, 255*brightness, 0, 255*brightness, 0);
+      SDL_RenderDrawLine(renderer, tpx, tpy, thx, thy);
+
     }
+
+    //printf("DIST: %f\n", distT);
 
   //render 3d scene 
   draw_3d(renderer, ray, distT, pixels, rayA, player, map);

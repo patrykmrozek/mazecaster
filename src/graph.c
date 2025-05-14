@@ -62,13 +62,14 @@ bool add_edge(Graph* graph, int v1_index, int v2_index) {
     graph->adj_lists[v2_index] = create_dll();
   }
 
-
+/*
   printf("Before checking: is %d in %d's list? %s\n",
        v1_index, v2_index,
        list_contains(graph->adj_lists[v2_index], v1_index) ? "yes" : "no");
 
   printf("Before checking: is %d in %d's list? %s\n", v2_index, v1_index,
          list_contains(graph->adj_lists[v1_index], v2_index) ? "yes" : "no");
+*/
 
   //if the dll at v1_index does not contain v2_index, add it
   if (!list_contains(graph->adj_lists[v1_index], v2_index)) {

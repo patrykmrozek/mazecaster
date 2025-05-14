@@ -160,6 +160,8 @@ void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, floa
       (colNum*pixels) + (WIDTH/2) + i,
       lineH + lineO
     );
-  }
+    }
+
+
   
 }
