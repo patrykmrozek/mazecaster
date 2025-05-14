@@ -165,7 +165,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map, SDL_Rect* map_r
 
     int thx = map_rect->x + (int)(nhx * map_rect->w);
     int thy = map_rect->x + (int)(nhy * map_rect->h);
-
+ 
     float brightness;
 
 
@@ -189,7 +189,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map, SDL_Rect* map_r
 
     }
 
-    //printf("DIST: %f\n", distT);
+   //printf("DIST: %f\n", distT);
 
   //render 3d scene 
   draw_3d(renderer, ray, distT, pixels, rayA, player, map);
