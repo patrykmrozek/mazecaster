@@ -46,6 +46,8 @@ Map* generate_maze(int n) {
   visited[1] = true;
   map->grid[1][1] = 0;
   _generate_maze(map, visited, 1, 1, size, n);
+  Graph* graph = create_graph(2*n+1);
+  generate_maze_exit(map, graph);
 
   
   for (int i = 0; i < size; i ++) {
@@ -69,8 +71,8 @@ void _generate_maze(Map* map, bool* visited, int row, int col, int size, int n) 
 
   //need to shuffle the directions
   for (int i = 0; i < 3; i++) {
-    int r = rand() & (i+1);
-    int temp0 = directions[i][0];
+    int r = i + rand() % (4-i);  
+    int temp0 = directions[i][0]; 
     int temp1 = directions[i][1];
     directions[i][0] = directions[r][0];
     directions[i][1] = directions[r][1];
@@ -100,6 +102,37 @@ void _generate_maze(Map* map, bool* visited, int row, int col, int size, int n) 
     }
   }
 
+}
+
+Graph* map_to_graph(Map* map, Graph* graph) {
+  int n = graph->num_vertices;
+  //for every cell in the map
+  for (int i=0; i < n; i++) {
+    for (int j=0; j < n; j++) {
+      //if the current cell is not a wall
+      if (map->grid[i][j]==0) {
+        //if the cell to the right is not a wall
+        if ((j+1 < n) && (map->grid[i][j+1]==0)) {
+          add_edge(graph, map->grid[i][j], map->grid[i][j+1]);
+        }
+        //if the cell below is not a wall
+        if ((i+1 < n) && (map->grid[i+1][j]==0)) {
+          add_edge(graph, map->grid[i][j], map->grid[i+1][j]);
+        }
+      }
+    }
+  }
+
+  return graph;
+}
+
+bool is_exit(Map* map, int i, int j) {
+  return false;
+}
+
+void generate_maze_exit(Map* map, Graph* graph) {
+  Graph* g = map_to_graph(map, graph);
+  print_graph(g);
 }
 
 void destroy_map(Map* map) {

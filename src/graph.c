@@ -8,7 +8,7 @@ Graph* create_graph(int num_vertices) {
   Graph* graph = malloc(sizeof(Graph));
   if (graph==NULL) {
     printf("Error allocating graph\n"); 
-    return NULL;
+    return NULL; 
   }
 
   //allocates memory for 'num_vertices' amount of vertices
