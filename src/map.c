@@ -46,7 +46,7 @@ Map* generate_maze(int n) {
   visited[1] = true;
   map->grid[1][1] = 0;
   _generate_maze(map, visited, 1, 1, size, n);
-  Graph* graph = create_graph(2*n+1);
+  Graph* graph = create_graph(map->width * map->height);
   generate_maze_exit(map, graph);
 
   
@@ -105,19 +105,23 @@ void _generate_maze(Map* map, bool* visited, int row, int col, int size, int n) 
 }
 
 Graph* map_to_graph(Map* map, Graph* graph) {
-  int n = graph->num_vertices;
+  int w = map->width;
+  int h = map->height;
   //for every cell in the map
-  for (int i=0; i < n; i++) {
-    for (int j=0; j < n; j++) {
+  for (int i=0; i < h; i++) {
+    for (int j=0; j < w; j++) {
       //if the current cell is not a wall
       if (map->grid[i][j]==0) {
+        int curr = i * w + j; //each cell must have a unique vertex ID for add_edge to work
         //if the cell to the right is not a wall
-        if ((j+1 < n) && (map->grid[i][j+1]==0)) {
-          add_edge(graph, map->grid[i][j], map->grid[i][j+1]);
+        if ((j+1 < w) && (map->grid[i][j+1]==0)) {
+          int next = i * w + (j+1); //next cell = cell to the right
+          add_edge(graph, curr, next);
         }
         //if the cell below is not a wall
-        if ((i+1 < n) && (map->grid[i+1][j]==0)) {
-          add_edge(graph, map->grid[i][j], map->grid[i+1][j]);
+        if ((i+1 < h) && (map->grid[i+1][j]==0)) {
+          int next = (i+1) * w + j; //next cell = cell above
+          add_edge(graph, curr, next);
         }
       }
     }
