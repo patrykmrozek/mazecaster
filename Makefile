@@ -21,7 +21,11 @@ OBJ_FILES = $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 OUTPUT = raycast
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+#make an obj dir if it doesnt exist
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
 $(OUTPUT): $(OBJ_FILES)
