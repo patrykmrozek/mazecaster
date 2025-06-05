@@ -146,9 +146,11 @@ void generate_maze_exit(Map* map, Graph* graph) {
   marked[start_cell] = 1; //mark the first cell as visited
   _dfs(g, marked, start_cell, &final_cell);
   //print_graph(g);
+  /*
   for (int i = 0; i < graph->num_vertices; i++) {
     printf("%d - ", marked[i]);
   }
+  */
   printf("\n");
   printf("FINAL CELL: %d\n", final_cell);
   int final_row = (int)(final_cell/map->width);

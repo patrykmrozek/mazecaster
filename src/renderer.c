@@ -52,12 +52,11 @@ void draw_map(SDL_Renderer* renderer, Map* map, int tile_draw_size) {
       };
         SDL_SetRenderDrawColor(renderer, 20, 20, 20, 255); //set color to white
         SDL_RenderFillRect(renderer, &tile);
-
       // if the current block is 1 (a wall), draw a white rect 
       if (map->grid[y][x]==1) {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); //set color to white
         SDL_RenderFillRect(renderer, &tile);
-      }
+      } 
     }
   }
 }
@@ -86,16 +85,19 @@ SDL_Texture* cache_map(SDL_Renderer* renderer, Map* map, int tile_draw_size, SDL
   
   for (int y = 0; y < map->height; y++) {
     for (int x = 0; x < map->width; x++) {
-      if (map->grid[y][x] == 1) {
-        SDL_Rect wall = {
+       SDL_Rect wall = {
           x*tile_draw_size,
           y*tile_draw_size,
           tile_draw_size,
           tile_draw_size
         };
+      if (map->grid[y][x] == 1) { 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderFillRect(renderer, &wall);
-
+      }
+      else if (map->grid[y][x] == 2) {
+        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+        SDL_RenderFillRect(renderer, &wall); 
       }
     }
   }
