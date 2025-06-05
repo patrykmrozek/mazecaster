@@ -83,7 +83,7 @@ void _generate_maze(Map* map, bool* visited, int row, int col, int size, int n) 
   }
 
   //for each direction
-  for (int d = 0; d < 4; d++)
+  for (int d = 0; d < 4; d++) {
     int drow = directions[d][0]; //direction row = the first value from each of the directions (only affect row value)
     int dcol = directions[d][1]; //direction col = the second value from each of the directions (only affect col values)
     int nrow = drow + row; //neighbour row = current row + the direction row
