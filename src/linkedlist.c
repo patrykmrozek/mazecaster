@@ -135,7 +135,7 @@ void print_dll(dll* list) {
       printf("%d-", n->data);
       n = n->next;
     }
-  printf("]\n");
+  printf("]");
   }
 
 //frees up the allocated memory

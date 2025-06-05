@@ -48,6 +48,7 @@ Map* generate_maze(int n) {
   _generate_maze(map, visited, 1, 1, size, n);
   Graph* graph = create_graph(map->width * map->height);
   generate_maze_exit(map, graph);
+  destroy_graph(graph); //can be immediately destroyed as we only need it for generating the exit
 
   
   for (int i = 0; i < size; i ++) {
@@ -62,6 +63,7 @@ Map* generate_maze(int n) {
 }
 
 void _generate_maze(Map* map, bool* visited, int row, int col, int size, int n) {
+  //printf("SIZE: %d\n", map->width);
   int directions[4][2] = {
     {-2, 0},//up
     {0, 2},//right
@@ -135,8 +137,43 @@ bool is_exit(Map* map, int i, int j) {
 }
 
 void generate_maze_exit(Map* map, Graph* graph) {
+  //printf("GRAPH SIZE: %d\n", graph->num_vertices);
   Graph* g = map_to_graph(map, graph);
-  print_graph(g);
+  bool* marked = calloc(g->num_vertices, sizeof(bool)); //marked array initialized to 0
+  int start_cell = map->width + 1; //starting vertex is the cell where the player spawns
+  int final_cell = 0; //will hold the final cell that was updated in the dfs, candidate for maze exit (passed by pointer)
+  //printf("START CELL: %d\n", start_cell);
+  marked[start_cell] = 1; //mark the first cell as visited
+  _dfs(g, marked, start_cell, &final_cell);
+  //print_graph(g);
+  for (int i = 0; i < graph->num_vertices; i++) {
+    printf("%d - ", marked[i]);
+  }
+  printf("\n");
+  printf("FINAL CELL: %d\n", final_cell);
+  int final_row = (int)(final_cell/map->width);
+  int final_col = (int)(final_cell%map->height);
+  printf("ROW: %d - COL: %d\n", final_row, final_col);
+  map->grid[final_row][final_col] = 2;
+  free(marked);
+}
+
+void _dfs(Graph* g, bool marked[], int v, int* final_cell) { //v = index of the vertex in the graph
+  dll* adj = g->adj_lists[v]; //adj is the list of all edges adjacent to v
+  //printf("%d\n", adj->head->next->data);
+  Node* current = adj->head->next;
+  //int current_data = current->data;
+  //printf("CURR DATA: %d\n", current->data);
+
+  for (int i=0; i<adj->size; i++) {
+    //printf("CURRENT IN MARKED: %d\n", marked[current->data]);
+    if (current && marked[current->data] == 0) { //if current exists and it is not marked yet
+      marked[current->data] = 1; //mark current
+      *final_cell = current->data;
+      _dfs(g, marked, current->data, final_cell); //recurse on current
+    }
+    current=current->next; //update current to the next adjacent vertex to v
+  }
 }
 
 void destroy_map(Map* map) {

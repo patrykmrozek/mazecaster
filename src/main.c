@@ -18,7 +18,7 @@ int main() {
   SDL_Window* window = init_window();
   SDL_Renderer* renderer = get_renderer(window);
   Player player;
-  Map* map = generate_maze(10);
+  Map* map = generate_maze(5);
   init_player(&player, map);
   SDL_RaiseWindow(window); //needed for the window to appear above all other windows
   SDL_PumpEvents();
