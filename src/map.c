@@ -81,18 +81,21 @@ void _generate_maze(Map* map, bool* visited, int row, int col, int size, int n) 
     directions[r][0] = temp0;
     directions[r][1] = temp1;
   }
-  
-  for (int d = 0; d < 4; d++) {
-    int drow = directions[d][0];
-    int dcol = directions[d][1];
-    int nrow = drow + row;
-    int ncol = dcol + col;
 
+  //for each direction
+  for (int d = 0; d < 4; d++)
+    int drow = directions[d][0]; //direction row = the first value from each of the directions (only affect row value)
+    int dcol = directions[d][1]; //direction col = the second value from each of the directions (only affect col values)
+    int nrow = drow + row; //neighbour row = current row + the direction row
+    int ncol = dcol + col; //nrighbour col = current col + the direction col
+  
+    //if nrow and ncol are still within the map
     if (nrow >= 0 && nrow < size && ncol >= 0 && ncol < size) {
       //need to translate from cell in maze -> index in visited
       int neighbour_index = ((nrow/2) * n) + (ncol/2);
+      // if the cell nrow ncol has not yet been visited
       if (!visited[neighbour_index]) {
-        visited[neighbour_index] = true;
+        visited[neighbour_index] = true; //set it to visited
         //since were jumping 2 cells at a time, if we find a valid unvisited cell
         //we need to clear the wall between the two cells
         int wall_row = (row + nrow)/2;
@@ -171,7 +174,7 @@ void _dfs(Graph* g, bool marked[], int v, int* final_cell) { //v = index of the 
     //printf("CURRENT IN MARKED: %d\n", marked[current->data]);
     if (current && marked[current->data] == 0) { //if current exists and it is not marked yet
       marked[current->data] = 1; //mark current
-      *final_cell = current->data;
+      *final_cell = current->data; //updates value at pointer given by final_cell (allows for manipulation of data outside of the function parameters thrpugh passed by pointer)
       _dfs(g, marked, current->data, final_cell); //recurse on current
     }
     current=current->next; //update current to the next adjacent vertex to v
