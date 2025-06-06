@@ -158,8 +158,11 @@ void generate_maze_exit(Map* map, Graph* graph) {
   printf("FINAL CELL: %d\n", final_cell);
   int final_row = (int)(final_cell/map->width);
   int final_col = (int)(final_cell%map->height);
-  printf("ROW: %d - COL: %d\n", final_row, final_col);
-  map->grid[final_row][final_col] = 2;
+  
+  //add final row and col to map struct under exit as a Point type
+  map->exit = (Point){final_row, final_col};
+  printf("ROW: %d - COL: %d\n", map->exit.x, map->exit.y);
+  map->grid[final_row][final_col] = 2;  
   free(marked);
 }
 

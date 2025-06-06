@@ -171,7 +171,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map, SDL_Rect* map_r
 
     if (distH > distV) {
       distT = distV;
-      brightness = 1.0f - (distT/((dof/2)*map->tile_size));
+      brightness = 1.0f - (distT/((dof/1.2)*map->tile_size));
       if (brightness<0) brightness=0;
       if (brightness>1) brightness=1;
   
@@ -180,7 +180,7 @@ void cast_rays(SDL_Renderer* renderer, Player* player, Map* map, SDL_Rect* map_r
       
     } else {
       distT = distH;
-      brightness = 1.0f - (distT/((dof/2)*map->tile_size));
+      brightness = 1.0f - (distT/((dof/1.2)*map->tile_size));
       if (brightness<0) brightness=0;
       if (brightness>1) brightness=1;
 

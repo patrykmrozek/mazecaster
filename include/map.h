@@ -17,10 +17,16 @@ extern const int MAP[][8];
 */
 
 typedef struct {
+  int x;
+  int y;
+} Point;
+
+typedef struct {
   int** grid; //map->grid[row][col]
   int width;
   int height;
   int tile_size;
+  Point exit;
 } Map;
 
 Map* generate_maze(int n);

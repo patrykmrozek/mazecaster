@@ -59,6 +59,7 @@ int main() {
     SDL_RenderCopy(renderer, cached_map, NULL, &map_rect);//copy map texture to renderer instead of redrawing every frame
     draw_player(renderer, &player, map, &map_rect);
     //printf("X: %f, Y: %f\n", player.x, player.y);
+    printf("X: %f, Y: %f\n", floor(player.x / map->tile_size), floor(player.y / map->tile_size));
     draw_bg(renderer);
     //printf("X: %f, Y: %f ANGLE: %f\n", player.x, player.y, player.a);
     get_user_inputs(window, &player, deltaTime);
