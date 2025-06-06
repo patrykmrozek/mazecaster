@@ -11,6 +11,19 @@ void init_player(Player* player, Map* map) {
     .size = PLAYER_SIZE,
     COLOR_RED
   }; 
-}  
+}
 
+bool has_exit(Player player, Map map) {
+  //player position in relation to the map matrix
+  int player_row = floor(player.y / map.tile_size);
+  int player_col = floor(player.x / map.tile_size);
 
+  //if the player is on the exit cell
+  if (player_row == map.exit.x && player_col == map.exit.y) {
+    printf("EXIT\n");
+    return true;
+  }
+  return false;
+}
+
+ 

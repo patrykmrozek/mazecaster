@@ -46,6 +46,7 @@ int main() {
 
   SDL_Event event;
   int program_running = 1;
+
   
   while (program_running) {
     if (SDL_PollEvent(&event)) {
@@ -54,12 +55,13 @@ int main() {
       }  
     }
     double deltaTime = calc_delta_time();
+    has_exit(player, *map);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);//clear screen
     SDL_RenderCopy(renderer, cached_map, NULL, &map_rect);//copy map texture to renderer instead of redrawing every frame
     draw_player(renderer, &player, map, &map_rect);
     //printf("X: %f, Y: %f\n", player.x, player.y);
-    printf("X: %f, Y: %f\n", floor(player.x / map->tile_size), floor(player.y / map->tile_size));
+    //printf("ROW: %f, COL: %f\n", floor(player.y / map->tile_size), floor(player.x / map->tile_size));
     draw_bg(renderer);
     //printf("X: %f, Y: %f ANGLE: %f\n", player.x, player.y, player.a);
     get_user_inputs(window, &player, deltaTime);

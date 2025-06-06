@@ -24,5 +24,7 @@ typedef struct {
 } Player;
 
 void init_player(Player* player, Map* map);
+bool has_exit(Player player, Map map);
+
 
 #endif
