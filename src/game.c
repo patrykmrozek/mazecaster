@@ -1,18 +1,17 @@
 #include "game.h"
 
-void init (SDL_Window* window, SDL_Renderer* renderer, Player* player, Map* map) {
-}
-
-void update(SDL_Renderer* renderer, Player* player, Map* map) {
+void init(game_t* game) {
 
 }
+void update(game_t* game) {
 
-void render(SDL_Renderer* renderer, Player* player, Map* map) {
+}
+void render(game_t* game) {
+
+}
+void destroy(game_t* game) {
 
 }
 
-void destroy(SDL_Renderer* renderer, SDL_Window* window, Map* map){
-
-}
 
 

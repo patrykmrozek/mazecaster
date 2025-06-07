@@ -13,10 +13,28 @@
 #include "map.h"
 #include "utils.h"
 
-void init(SDL_Window* window, SDL_Renderer* renderer, Player player, Map* map);
-void update(SDL_Renderer* renderer, Player* player, Map* map);
-void render(SDL_Renderer* renderer, Player* player, Map* map);
-void destroy(SDL_Renderer* renderer, SDL_Window* window, Map* map);
+
+typedef enum gameState{
+  STATE_MENU,
+  STATE_PLAYING,
+  STATE_PAUSED,
+  STATE_GAMEOVER
+} gameState_t;
+
+typedef struct game {
+  gameState_t state;
+  SDL_Window* window;
+  SDL_Renderer* renderer;
+  Map* map;
+  Player player;
+  SDL_Texture* cached_map;
+  bool running;
+} game_t;
+
+void init(game_t* game);
+void update(game_t* game);
+void render(game_t* game);
+void destroy(game_t* game);
 
 
 
