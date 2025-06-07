@@ -1,5 +1,24 @@
 #include "inputs.h"
 
+
+void input_init(InputState_t* input) {
+
+}
+void input_update(InputState_t* input, SDL_Event* event) {
+
+}
+bool is_key_down(InputState_t* input, SDL_Scancode key) {
+
+}
+bool is_key_pressed(InputState_t* input, SDL_NUM_SCANCODES key) {
+
+}
+bool is_key_released(InputState_t* input, SDL_NUM_SCANCODES key) {
+
+}
+
+
+/*
 void get_user_inputs(SDL_Window* window, Player* player, double deltaT) {
   const Uint8* keystate = SDL_GetKeyboardState(NULL);
   float speed = 150.0f * deltaT; // movement speed
@@ -50,3 +69,4 @@ void get_user_inputs(SDL_Window* window, Player* player, double deltaT) {
   }
   
 }
+*/

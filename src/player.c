@@ -20,7 +20,6 @@ bool has_exit(Player player, Map map) {
 
   //if the player is on the exit cell
   if (player_row == map.exit.x && player_col == map.exit.y) {
-    printf("EXIT\n");
     return true;
   }
   return false;

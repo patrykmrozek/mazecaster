@@ -15,20 +15,20 @@
 int main() {
   game_t game; 
   SDL_Event event;
-  init(&game);
+  game_init(&game);
 
-  while (game.running /* && !(has_exit(player, *map)) */ ) {
+  while (game.running) {
     if (SDL_PollEvent(&event)) {
-      if (event.type == SDL_QUIT) {
+      if (event.type == SDL_QUIT || game.state == STATE_GAMEOVER) {
         game.running = false;
       }  
     }
 
-    update(&game);
-    render(&game);
+    game_update(&game);
+    game_render(&game);
     //printf("FPS: %f\n", 1.0/deltaTime);
   }
 
-  destroy(&game);
+  game_destroy(&game);
   return 0;
 }

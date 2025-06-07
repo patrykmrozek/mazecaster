@@ -1,6 +1,6 @@
 #include "game.h"
 
-void init(game_t* game) {
+void game_init(game_t* game) {
   srand(time(NULL));
 
   game->state = STATE_PLAYING;
@@ -9,8 +9,7 @@ void init(game_t* game) {
   game->map = generate_maze(5);
   game->map_rect = get_map_rect(game->map);
 
-  
-   game->cached_map = cache_map(game->renderer, game->map);
+  game->cached_map = cache_map(game->renderer, game->map);
   init_player(&game->player, game->map);
   game->running = true;
 
@@ -19,22 +18,18 @@ void init(game_t* game) {
 }
 
 
-void update(game_t* game) {
-  SDL_Event event;
-  while (SDL_PollEvent(&event)) {
-    if (event.type == SDL_QUIT) {
-      game->running = 0;
-    }
-  }
-
+void game_update(game_t* game) {
   double deltaTime = calc_delta_time();
-  has_exit(game->player, *game->map);
+
+  if (has_exit(game->player, *game->map)) {
+    game->state = STATE_GAMEOVER;
+  }
   get_user_inputs(game->window, &game->player, deltaTime); 
 
 }
 
 
-void render(game_t* game) {
+void game_render(game_t* game) {
     SDL_SetRenderDrawColor(game->renderer, 0, 0, 0, 255);
     SDL_RenderClear(game->renderer);//clear screen
     SDL_RenderCopy(game->renderer, game->cached_map, NULL, &game->map_rect);//copy map texture to renderer instead of redrawing every frame
@@ -48,7 +43,7 @@ void render(game_t* game) {
 }
 
 
-void destroy(game_t* game) { 
+void game_destroy(game_t* game) { 
   destroy_map(game->map);
   SDL_DestroyTexture(game->cached_map);
   SDL_DestroyRenderer(game->renderer);
