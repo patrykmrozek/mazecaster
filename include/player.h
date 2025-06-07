@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "window.h"
+#include "inputs.h"
 #include "utils.h"
 #include "map.h"
 
@@ -20,10 +21,18 @@ typedef struct {
 typedef struct {
   //x, y, deltaX, deltaY, angle, size
   double x, y, dx, dy, a, size;
+  float speed, sens;
   Color color;
 } Player;
 
 void init_player(Player* player, Map* map);
+void move_left(Player* player, double delta);
+void move_right(Player* player, double delta);
+void move_forward(Player* player, double delta);
+void move_backward(Player* player, double delta);
+void look_left(Player* player, double delta);
+void look_right(Player* player, double delta);
+void move_player(Player* player, InputState_t* input, double delta);
 bool has_exit(Player player, Map map);
 
 

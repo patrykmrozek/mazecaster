@@ -13,17 +13,19 @@
 #include "game.h"
 
 int main() {
+  srand(time(NULL));
   game_t game; 
   SDL_Event event;
   game_init(&game);
 
   while (game.running) {
-    if (SDL_PollEvent(&event)) {
+    while (SDL_PollEvent(&event)) {
       if (event.type == SDL_QUIT || game.state == STATE_GAMEOVER) {
         game.running = false;
-      }  
+      }
+      input_process(game.input, &event); //while there is an event, process it
     }
-
+    input_update(game.input);
     game_update(&game);
     game_render(&game);
     //printf("FPS: %f\n", 1.0/deltaTime);

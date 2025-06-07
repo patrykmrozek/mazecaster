@@ -4,7 +4,6 @@
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 #include "window.h"
-#include "player.h"
 
 #define MAX_KEYS SDL_NUM_SCANCODES //sets MAX_KEYS to the max possible number of keys defined in SDL
 
@@ -18,9 +17,10 @@ typedef struct {
 //void get_user_inputs(SDL_Window* window, Player* player, double deltaT);
 
 void input_init(InputState_t* input);
-void input_update(InputState_t* input, SDL_Event* event);
+void input_process(InputState_t* input, SDL_Event* event);
+void input_update(InputState_t* input);
 bool is_key_down(InputState_t* input, SDL_Scancode key);
-bool is_key_pressed(InputState_t* input, SDL_NUM_SCANCODES key);
-bool is_key_released(InputState_t* input, SDL_NUM_SCANCODES key);
+bool is_key_pressed(InputState_t* input, SDL_Scancode key);
+bool is_key_released(InputState_t* input, SDL_Scancode key);
 
 #endif

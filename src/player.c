@@ -9,8 +9,75 @@ void init_player(Player* player, Map* map) {
     .dy = PDY_INIT,
     .a = deg_to_rad(45),
     .size = PLAYER_SIZE,
+    .speed = 150.0f,
+    .sens = 2.0f,
     COLOR_RED
   }; 
+}
+
+
+
+void move_left(Player* player, double delta) {
+  float strafe_angle = player->a - PI/2; 
+  player->x += cos(strafe_angle) * player->speed * delta;
+  player->y += sin(strafe_angle) * player->speed * delta;
+}
+
+void move_right(Player* player, double delta) {
+  float strafe_angle = player->a + PI/2;
+  player->x += cos(strafe_angle) * player->speed * delta;
+  player->y += sin(strafe_angle) * player->speed * delta;
+}
+
+void move_forward(Player* player, double delta) {
+  player->x += player->dx * player->speed * delta;
+  player->y += player->dy * player->speed * delta;
+}
+
+void move_backward(Player* player, double delta) {
+  player->x -= player->dx * player->speed * delta;
+  player->y -= player->dy * player->speed * delta;
+}
+
+void look_left(Player* player, double delta) {
+  player->a -= (player->sens * delta);
+    if (player->a < 0) { // if player angle goes below zero, reset to 360(2PI)
+      player->a += 2*PI;
+    } 
+      
+    player->dx=cos(player->a);
+    player->dy=sin(player->a);
+}
+
+void look_right(Player* player, double delta) {
+  player->a += (player->sens * delta);
+    if (player->a > 2*PI){ // if player angle goes above 360(2PI), reset to zero 
+      player->a -= 2*PI;
+    }
+
+    player->dx=cos(player->a);
+    player->dy=sin(player->a);
+}
+
+void move_player(Player* player, InputState_t* input, double delta) {
+  if (input->keys_down[SDL_SCANCODE_W]) {
+    move_forward(player, delta);
+  }
+  if (input->keys_down[SDL_SCANCODE_S]) {
+    move_backward(player, delta);
+  }
+  if (input->keys_down[SDL_SCANCODE_A]) {
+    move_left(player, delta);
+  }
+  if (input->keys_down[SDL_SCANCODE_D]) {
+    move_right(player, delta);
+  }
+  if (input->keys_down[SDL_SCANCODE_LEFT]) {
+    look_left(player, delta);
+  }
+  if (input->keys_down[SDL_SCANCODE_RIGHT]) {
+    look_right(player, delta);
+  }
 }
 
 bool has_exit(Player player, Map map) {

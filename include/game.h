@@ -30,13 +30,14 @@ typedef struct game {
   Player player;
   SDL_Texture* cached_map;
   SDL_Rect map_rect;
+  InputState_t* input;
   bool running;
 } game_t;
 
-void init(game_t* game);
-void update(game_t* game);
-void render(game_t* game);
-void destroy(game_t* game);
+void game_init(game_t* game);
+void game_update(game_t* game);
+void game_render(game_t* game);
+void game_destroy(game_t* game);
 
 
 
