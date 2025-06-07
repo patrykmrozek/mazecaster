@@ -6,6 +6,7 @@ OBJ_DIR = obj
 INC_DIR = include
 
 SRC_FILES = $(SRC_DIR)/main.c \
+						$(SRC_DIR)/game.c \
             $(SRC_DIR)/player.c \
             $(SRC_DIR)/map.c \
             $(SRC_DIR)/window.c \

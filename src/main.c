@@ -10,6 +10,7 @@
 #include "map.h"
 #include "utils.h"
 #include "graph.h"
+#include "game.h"
 
 int main() {
   //seeds random generator with current time, avoids deterministic maze generation
@@ -48,7 +49,7 @@ int main() {
   int program_running = 1;
 
   
-  while (program_running) {
+  while (program_running /* && !(has_exit(player, *map)) */ ) {
     if (SDL_PollEvent(&event)) {
       if (event.type == SDL_QUIT) {
         program_running = 0;
