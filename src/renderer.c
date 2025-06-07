@@ -63,7 +63,28 @@ void draw_map(SDL_Renderer* renderer, Map* map, int tile_draw_size) {
 
 
 //instead of drawing map every frame, cache it to a texture and copy texture to the renderer every frame
-SDL_Texture* cache_map(SDL_Renderer* renderer, Map* map, int tile_draw_size, SDL_Rect* out_rect) {
+SDL_Texture* cache_map(SDL_Renderer* renderer, Map* map) {
+  
+  int tile_draw_size = WIDTH / map->width;
+  if (HEIGHT / map->height < tile_draw_size) {
+    tile_draw_size = HEIGHT / map->height;
+  }
+  // Clamp to max tile size (e.g. 16)
+  if (tile_draw_size > 16) {
+      tile_draw_size = 16;
+  }
+    //draw_map(renderer, map, tile_draw_size);
+
+  //scales map without distortion
+  /*float map_aspect = (float)map->width/map->height;
+  
+  SDL_Rect map_rect;
+  map_rect.w = WIDTH/2;
+  map_rect.h = (int)(map_rect.w/map_aspect);
+  map_rect.x = 0;
+  map_rect.y = (HEIGHT - map_rect.h)/2;
+*/
+
   int width = map->width * tile_draw_size;
   int height = map->height * tile_draw_size;
 
@@ -103,13 +124,6 @@ SDL_Texture* cache_map(SDL_Renderer* renderer, Map* map, int tile_draw_size, SDL
   }
 
   SDL_SetRenderTarget(renderer, NULL); //reset rendering back to screen
-
-  if (out_rect) {
-    out_rect->x = 0;
-    out_rect->y = 0;
-    out_rect->w = width;
-    out_rect->h = height;
-  }
 
   return map_texture;
 

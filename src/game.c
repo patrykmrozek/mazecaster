@@ -1,16 +1,62 @@
 #include "game.h"
 
 void init(game_t* game) {
+  srand(time(NULL));
 
+  game->state = STATE_PLAYING;
+  game->window = init_window();
+  game->renderer = get_renderer(game->window);
+  game->map = generate_maze(5);
+
+  float map_aspect = (float)game->map->width/game->map->height;
+  game->map_rect.w = WIDTH/2;
+  game->map_rect.h = (int)(game->map_rect.w/map_aspect);
+  game->map_rect.x = 0;
+  game->map_rect.y = (HEIGHT - game->map_rect.h)/2;
+
+  game->cached_map = cache_map(game->renderer, game->map);
+  init_player(&game->player, game->map);
+  game->running = true;
+
+  SDL_RaiseWindow(game->window);
+  SDL_PumpEvents();
 }
+
+
 void update(game_t* game) {
+  SDL_Event event;
+  while (SDL_PollEvent(&event)) {
+    if (event.type == SDL_QUIT) {
+      game->running = 0;
+    }
+  }
+
+  double deltaTime = calc_delta_time();
+  has_exit(game->player, *game->map);
+  get_user_inputs(game->window, &game->player, deltaTime); 
 
 }
 void render(game_t* game) {
+    SDL_SetRenderDrawColor(game->renderer, 0, 0, 0, 255);
+    SDL_RenderClear(game->renderer);//clear screen
+    SDL_RenderCopy(game->renderer, game->cached_map, NULL, &game->map_rect);//copy map texture to renderer instead of redrawing every frame
+    draw_player(game->renderer, &game->player, game->map, &game->map_rect);
+    //printf("X: %f, Y: %f\n", player.x, player.y);
+    //printf("ROW: %f, COL: %f\n", floor(player.y / map->tile_size), floor(player.x / map->tile_size));
+    draw_bg(game->renderer);
+    //printf("X: %f, Y: %f ANGLE: %f\n", player.x, player.y, player.a);
+    cast_rays(game->renderer, &game->player, game->map, &game->map_rect);
+    SDL_RenderPresent(game->renderer);
+
 
 }
-void destroy(game_t* game) {
-
+void destroy(game_t* game) { 
+  destroy_map(game->map);
+  SDL_DestroyTexture(game->cached_map);
+  SDL_DestroyRenderer(game->renderer);
+  SDL_DestroyWindow(game->window);
+  SDL_Quit();
+  
 }
 
 

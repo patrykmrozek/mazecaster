@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -28,6 +29,7 @@ typedef struct game {
   Map* map;
   Player player;
   SDL_Texture* cached_map;
+  SDL_Rect map_rect;
   bool running;
 } game_t;
 
