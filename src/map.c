@@ -184,6 +184,17 @@ void _dfs(Graph* g, bool marked[], int v, int* final_cell) { //v = index of the 
   }
 }
 
+SDL_Rect get_map_rect(Map* map) { //returns the size of the rectangle in which the map will be fit into
+  float map_aspect = (float)map->width/map->height;
+  SDL_Rect map_rect;
+  map_rect.w = WIDTH/2;
+  map_rect.h = (int)(map_rect.w/map_aspect);
+  map_rect.x = 0;
+  map_rect.y = (HEIGHT - map_rect.h)/2;
+
+  return map_rect;
+}
+
 void destroy_map(Map* map) {
   //free map
   for (int i = 0; i < map->height; i++) {

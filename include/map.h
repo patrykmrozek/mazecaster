@@ -35,6 +35,7 @@ Graph* map_to_graph(Map* map, Graph* graph);
 void generate_maze_exit(Map* map, Graph* graph);
 void _dfs(Graph* g, bool marked[], int v, int* final_cell);
 bool is_exit(Map* map, int i, int j);
+SDL_Rect get_map_rect(Map* map);
 void destroy_map(Map* map);
 
 #endif

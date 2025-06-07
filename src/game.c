@@ -7,14 +7,10 @@ void init(game_t* game) {
   game->window = init_window();
   game->renderer = get_renderer(game->window);
   game->map = generate_maze(5);
+  game->map_rect = get_map_rect(game->map);
 
-  float map_aspect = (float)game->map->width/game->map->height;
-  game->map_rect.w = WIDTH/2;
-  game->map_rect.h = (int)(game->map_rect.w/map_aspect);
-  game->map_rect.x = 0;
-  game->map_rect.y = (HEIGHT - game->map_rect.h)/2;
-
-  game->cached_map = cache_map(game->renderer, game->map);
+  
+   game->cached_map = cache_map(game->renderer, game->map);
   init_player(&game->player, game->map);
   game->running = true;
 
@@ -36,6 +32,8 @@ void update(game_t* game) {
   get_user_inputs(game->window, &game->player, deltaTime); 
 
 }
+
+
 void render(game_t* game) {
     SDL_SetRenderDrawColor(game->renderer, 0, 0, 0, 255);
     SDL_RenderClear(game->renderer);//clear screen
@@ -47,9 +45,9 @@ void render(game_t* game) {
     //printf("X: %f, Y: %f ANGLE: %f\n", player.x, player.y, player.a);
     cast_rays(game->renderer, &game->player, game->map, &game->map_rect);
     SDL_RenderPresent(game->renderer);
-
-
 }
+
+
 void destroy(game_t* game) { 
   destroy_map(game->map);
   SDL_DestroyTexture(game->cached_map);
