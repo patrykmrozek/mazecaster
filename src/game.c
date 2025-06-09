@@ -23,8 +23,6 @@ void game_update(game_t* game) {
   if (has_exit(game->player, *game->map)) {
     game->state = STATE_GAMEOVER;
   }
-  //get_user_inputs(game->window, &game->player, deltaTime); 
-
 }
 
 
