@@ -8,13 +8,12 @@
 #define MAX_KEYS SDL_NUM_SCANCODES //sets MAX_KEYS to the max possible number of keys defined in SDL
 
 typedef struct {
+  //index in arrays correlate directly to the sdl scancodes
   bool keys_down[MAX_KEYS];
   bool keys_pressed[MAX_KEYS];
   bool keys_released[MAX_KEYS];
 } InputState_t;
 
-
-//void get_user_inputs(SDL_Window* window, Player* player, double deltaT);
 
 void input_init(InputState_t* input);
 void input_process(InputState_t* input, SDL_Event* event);

@@ -19,15 +19,18 @@ int main() {
   game_init(&game);
 
   while (game.running) {
+    double deltaTime = calc_delta_time();
     while (SDL_PollEvent(&event)) {
-      if (event.type == SDL_QUIT || game.state == STATE_GAMEOVER) {
+      if (event.type == SDL_QUIT) {
         game.running = false;
       }
       input_process(game.input, &event); //while there is an event, process it
     }
     input_update(game.input);
-    game_update(&game);
-    game_render(&game);
+    stateHandlers[game.state].update(&game, deltaTime);
+    stateHandlers[game.state].render(&game);
+    //game_update(&game);
+    //game_render(&game);
     //printf("FPS: %f\n", 1.0/deltaTime);
   }
 
