@@ -59,7 +59,7 @@ void look_right(player_t* player, double delta) {
     player->dy=sin(player->a);
 }
 
-void move_player(player_t* player, InputState_t* input, double delta) {
+void move_player(player_t* player, input_state_t* input, double delta) {
   if (input->keys_down[SDL_SCANCODE_W]) {
     move_forward(player, delta);
   }

@@ -17,6 +17,7 @@ SRC_FILES = $(SRC_DIR)/main.c \
 						$(SRC_DIR)/stack.c \
 						$(SRC_DIR)/linkedlist.c \
 						$(SRC_DIR)/graph.c \
+						$(SRC_DIR)/state.c \
 						$(SRC_DIR)/types.c
 
 OBJ_FILES = $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

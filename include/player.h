@@ -36,7 +36,7 @@ void move_forward(player_t* player, double delta);
 void move_backward(player_t* player, double delta);
 void look_left(player_t* player, double delta);
 void look_right(player_t* player, double delta);
-void move_player(player_t* player, InputState_t* input, double delta);
+void move_player(player_t* player, input_state_t* input, double delta);
 bool has_exit(player_t player, map_t map);
 
 

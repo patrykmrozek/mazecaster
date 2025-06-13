@@ -12,14 +12,14 @@ typedef struct {
   bool keys_down[MAX_KEYS];
   bool keys_pressed[MAX_KEYS];
   bool keys_released[MAX_KEYS];
-} InputState_t;
+} input_state_t;
 
 
-void input_init(InputState_t* input);
-void input_process(InputState_t* input, SDL_Event* event);
-void input_update(InputState_t* input);
-bool is_key_down(InputState_t* input, SDL_Scancode key);
-bool is_key_pressed(InputState_t* input, SDL_Scancode key);
-bool is_key_released(InputState_t* input, SDL_Scancode key);
+void input_init(input_state_t* input);
+void input_process(input_state_t* input, SDL_Event* event);
+void input_update(input_state_t* input);
+bool is_key_down(input_state_t* input, SDL_Scancode key);
+bool is_key_pressed(input_state_t* input, SDL_Scancode key);
+bool is_key_released(input_state_t* input, SDL_Scancode key);
 
 #endif

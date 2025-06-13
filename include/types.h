@@ -2,7 +2,8 @@
 #define TYPES_H
 
 #include <stdint.h>
-#include <stddef.h> //size_t and ssize_t
+#include <stddef.h> //size_t
+#include <unistd.h> //ssize_t
 
 //floating point
 typedef float f32;
