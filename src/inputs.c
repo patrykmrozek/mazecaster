@@ -18,8 +18,8 @@ void input_process(input_state_t* input, SDL_Event* event) {
 }
 
 void input_update(input_state_t* input) { //updates only keys pressed and released arrays
-  memset(input->keys_pressed, 0, sizeof(input->keys_pressed)); //reset all values in keys_pressed arr to 0
-  memset(input->keys_released, 0, sizeof(input->keys_released)); //reset all values in keys_released arr to 0
+  memset(input->keys_pressed, 0, MAX_KEYS); //reset all values in keys_pressed arr to 0
+  memset(input->keys_released, 0, MAX_KEYS); //reset all values in keys_released arr to 0
 }
 
 bool is_key_down(input_state_t* input, SDL_Scancode key) {

@@ -21,11 +21,14 @@ int main() {
         game.running = false;
       }
       input_process(game.input, &event); //while there is an event, process it
+      //printf("%d\n", game.input->keys_pressed[SDL_SCANCODE_P]);
     }
-    input_update(game.input);
     game_update(&game, delta_time);
     game_render(&game);
-   // printf("FPS: %f\n", 1.0/deltaTime);
+
+    //input_update clears keys that have been pressed for one frame, so it must be called after the game functions
+    input_update(game.input);
+   // printf("FPS: %f\n", 1.0/delta_time);
   }
 
   game_destroy(&game);
