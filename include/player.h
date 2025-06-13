@@ -22,8 +22,8 @@ typedef struct {
 #define COLOR_RED (Color){255, 0, 0, 255}
 
 typedef struct {
-  //vec2_t pos;
-  f32 x, y;
+  vec2_t pos;
+  //f32 x, y;
   f64 dx, dy, a, size;
   f32 speed, sens;
   Color color;

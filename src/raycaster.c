@@ -21,8 +21,8 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
   int num_rays = (WIDTH/2)/pixels; //number of rays required to fill up WIDTH/2 of the screen 
   float fov = deg_to_rad(60); //fov = 60degrees in radianas
   float step = fov/num_rays; //how much each ray will step 
-  rayX = player->x;
-  rayY = player->y;
+  rayX = player->pos.x;
+  rayY = player->pos.y;
    for (int ray=0; ray<num_rays; ray++) {
     rayA = player->a - fov/2 + ray * step; //starts half of the fov to the left, and steps right for each step
      
@@ -39,14 +39,14 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
 
       //HORIZONTAL LINE CHECKS 
       if (rayA > PI) { //if angle of ray is above 180deg, looking up
-        rayY = floor(player->y / map->tile_size) * map->tile_size - 0.001f; //find ray y pos
-        rayX = (player->y - rayY) * aTan + player->x; //find ray x pos
+        rayY = floor(player->pos.y / map->tile_size) * map->tile_size - 0.001f; //find ray y pos
+        rayX = (player->pos.y - rayY) * aTan + player->pos.x; //find ray x pos
         offsetY = -map->tile_size; //calculate y offset
         offsetX = -offsetY * aTan; // calculate x offset
       }
       if (rayA < PI) { //if angle of ray is below 180deg, looking down
-        rayY = ceil(player->y / map->tile_size) * map->tile_size;
-        rayX = (player->y - rayY) * aTan + player->x;
+        rayY = ceil(player->pos.y / map->tile_size) * map->tile_size;
+        rayX = (player->pos.y - rayY) * aTan + player->pos.x;
         offsetY = map->tile_size;
         offsetX = -offsetY * aTan;
       }
@@ -70,7 +70,7 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
         }
       }
     }
-    distH = dist(player->x, player->y, rayX, rayY); //dist from player to end of horizontal-checking ray
+    distH = dist(player->pos.x, player->pos.y, rayX, rayY); //dist from player to end of horizontal-checking ray
     hx = rayX;
     hy = rayY;
     /*
@@ -78,8 +78,8 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 0);
         SDL_RenderDrawLine(
           renderer,
-          player->x + (player->size/2),
-          player->y + (player->size/2),
+          player->pos.x + (player->size/2),
+          player->pos.y + (player->size/2),
           hx,
           hy
         );
@@ -91,21 +91,21 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
       float nTan = -tan(rayA); //negative tan
       //start at the next grid line (floor + map->tile_size)
       if (rayA < PI2 || rayA > 3*PI2) { //if angle of ray is below 90deg OR above 270deg, looking right
-        rayX = floor(player->x / map->tile_size) * map->tile_size + map->tile_size; //x position of the ray
-        rayY = (player->x - rayX) * nTan + player->y; //y pos of ray
+        rayX = floor(player->pos.x / map->tile_size) * map->tile_size + map->tile_size; //x position of the ray
+        rayY = (player->pos.x - rayX) * nTan + player->pos.y; //y pos of ray
         offsetX = map->tile_size; //calculate y offset
         offsetY = -offsetX * nTan; // calculate x offset
       }
       //start at the previous grid line (floor)
       if (rayA > PI2 && rayA < 3*PI2) { //if angle of ray is above 90deg and below 270deg, left
-        rayX = floor(player->x / map->tile_size) * map->tile_size - 0.0001f; //x position of the ray 
-        rayY = (player->x - rayX) * nTan + player->y; //y position of the ray
+        rayX = floor(player->pos.x / map->tile_size) * map->tile_size - 0.0001f; //x position of the ray 
+        rayY = (player->pos.x - rayX) * nTan + player->pos.y; //y position of the ray
         offsetX = -map->tile_size; //calculate y offset
         offsetY = -offsetX * nTan; // calculate x offset
       }
       while (dof<map->width) {
         //printf("Angle: %.2f° nTan: %.2f offsetX: %.2f offsetY: %.2f\n", rayA * 180/PI, nTan, offsetX, offsetY);
-        //printf("Start: (%.2f,%.2f) End: (%.2f,%.2f)\n", player->x, player->y, rayX, rayY);
+        //printf("Start: (%.2f,%.2f) End: (%.2f,%.2f)\n", player->pos.x, player->pos.y, rayX, rayY);
         //need to translate wall hit coordinates to location in the map matrix
         mapX = (int)(rayX/map->tile_size);
         mapY = (int)(rayY/map->tile_size);
@@ -124,7 +124,7 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
         }
       }
     }
-    distV = dist(player->x, player->y, rayX, rayY);//dist from player to end of vertical-checking ray
+    distV = dist(player->pos.x, player->pos.y, rayX, rayY);//dist from player to end of vertical-checking ray
     vx = rayX;
     vy = rayY;
         
@@ -132,8 +132,8 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
     /*
         SDL_RenderDrawLine(
           renderer,
-          player->x + (player->size/2),
-          player->y + (player->size/2),
+          player->pos.x + (player->size/2),
+          player->pos.y + (player->size/2),
           vx,
           vy
         );
@@ -147,8 +147,8 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
     float ndivh = (float)(map->height * map->tile_size);
     
     //normalize player x and y
-    float npx = player->x / ndivw;
-    float npy = player->y / ndivh;
+    float npx = player->pos.x / ndivw;
+    float npy = player->pos.y / ndivh;
     //normalize vx and vy
     float nvx = vx/ndivw;
     float nvy = vy/ndivh;

@@ -3,8 +3,7 @@
 void init_player(player_t* player, map_t* map) {
   *player = (player_t)
   {
-    .x = map->tile_size + (map->tile_size/2),
-    .y = map->tile_size + (map->tile_size/2),
+    .pos = (vec2_t){ (map->tile_size + (map->tile_size/2)), (map->tile_size + (map->tile_size/2))},
     .dx = PDX_INIT,
     .dy = PDY_INIT,
     .a = deg_to_rad(45),
@@ -19,24 +18,24 @@ void init_player(player_t* player, map_t* map) {
 
 void move_left(player_t* player, double delta_time) {
   float strafe_angle = player->a - PI/2; 
-  player->x += cos(strafe_angle) * player->speed * delta_time;
-  player->y += sin(strafe_angle) * player->speed * delta_time;
+  player->pos.x += cos(strafe_angle) * player->speed * delta_time;
+  player->pos.y += sin(strafe_angle) * player->speed * delta_time;
 }
 
 void move_right(player_t* player, double delta_time) {
   float strafe_angle = player->a + PI/2;
-  player->x += cos(strafe_angle) * player->speed * delta_time;
-  player->y += sin(strafe_angle) * player->speed * delta_time;
+  player->pos.x += cos(strafe_angle) * player->speed * delta_time;
+  player->pos.y += sin(strafe_angle) * player->speed * delta_time;
 }
 
 void move_forward(player_t* player, double delta_time) {
-  player->x += player->dx * player->speed * delta_time;
-  player->y += player->dy * player->speed * delta_time;
+  player->pos.x += player->dx * player->speed * delta_time;
+  player->pos.y += player->dy * player->speed * delta_time;
 }
 
 void move_backward(player_t* player, double delta_time) {
-  player->x -= player->dx * player->speed * delta_time;
-  player->y -= player->dy * player->speed * delta_time;
+  player->pos.x -= player->dx * player->speed * delta_time;
+  player->pos.y -= player->dy * player->speed * delta_time;
 }
 
 void look_left(player_t* player, double delta_time) {
@@ -82,8 +81,8 @@ void move_player(player_t* player, input_state_t* input, double delta_time) {
 
 bool has_exit(player_t player, map_t map) {
   //player position in relation to the map matrix
-  int player_row = floor(player.y / map.tile_size);
-  int player_col = floor(player.x / map.tile_size);
+  int player_row = floor(player.pos.y / map.tile_size);
+  int player_col = floor(player.pos.x / map.tile_size);
 
   //if the player is on the exit cell
   if (player_row == map.exit.x && player_col == map.exit.y) {

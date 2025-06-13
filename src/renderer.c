@@ -3,8 +3,8 @@
 void draw_player(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* map_rect) {
 
   //normalize player c and y to (0, 1) of original maze
-  float nx = player->x / (float)(map->width * map->tile_size);
-  float ny = player->y / (float)(map->height * map->tile_size);
+  float nx = player->pos.x / (float)(map->width * map->tile_size);
+  float ny = player->pos.y / (float)(map->height * map->tile_size);
 
   //maps normalized position into screen coordinates, relative to map_rect
   int px = map_rect->x + (int)(nx * map_rect->w);
@@ -13,7 +13,7 @@ void draw_player(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect*
   //scales player size based on scaling of minimap
   float p_size = map_rect->w/map->width/2;
 
-  //printf("player_t world: %.1f, %.1f\n", player->x, player->y);
+  //printf("player_t world: %.1f, %.1f\n", player->pos.x, player->pos.y);
   //printf("player_t minimap: %d, %d\n", px, py);
 
   SDL_Rect playerRect = {px-(p_size/2), py-(p_size/2), p_size, p_size};
@@ -24,13 +24,13 @@ void draw_player(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect*
   //draw a line in the direction the player is facing
   float lineLength = 20.0f;
   //calulate the point in which the player is facing with length lineLength
-  double endX = player->x + (player->size/2) + cos(player->a) * lineLength;
-  double endY = player->y + (player->size/2) + sin(player->a) * lineLength;
+  double endX = player->pos.x + (player->size/2) + cos(player->a) * lineLength;
+  double endY = player->pos.y + (player->size/2) + sin(player->a) * lineLength;
   SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
   SDL_RenderDrawLine(
     renderer,
-    player->x+(player->size/2),
-    player->y+(player->size/2),
+    player->pos.x+(player->size/2),
+    player->pos.y+(player->size/2),
     endX,
     endY
   );
