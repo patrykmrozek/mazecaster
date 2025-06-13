@@ -3,15 +3,15 @@
 void draw_player(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* map_rect) {
 
   //normalize player c and y to (0, 1) of original maze
-  float nx = player->pos.x / (float)(map->width * map->tile_size);
-  float ny = player->pos.y / (float)(map->height * map->tile_size);
+  f32 nx = player->pos.x / (float)(map->width * map->tile_size);
+  f32 ny = player->pos.y / (float)(map->height * map->tile_size);
 
   //maps normalized position into screen coordinates, relative to map_rect
-  int px = map_rect->x + (int)(nx * map_rect->w);
-  int py = map_rect->y + (int)(ny * map_rect->h);
+  u16 px = map_rect->x + (int)(nx * map_rect->w);
+  u16 py = map_rect->y + (int)(ny * map_rect->h);
   
   //scales player size based on scaling of minimap
-  float p_size = map_rect->w/map->width/2;
+  f32 p_size = map_rect->w/map->width/2;
 
   //printf("player_t world: %.1f, %.1f\n", player->pos.x, player->pos.y);
   //printf("player_t minimap: %d, %d\n", px, py);
@@ -41,7 +41,7 @@ void draw_player(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect*
 //instead of drawing map every frame, cache it to a texture and copy texture to the renderer every frame
 SDL_Texture* cache_map(SDL_Renderer* renderer, map_t* map) {
   
-  int tile_draw_size = WIDTH / map->width;
+  u8 tile_draw_size = WIDTH / map->width;
   if (HEIGHT / map->height < tile_draw_size) {
     tile_draw_size = HEIGHT / map->height;
   }
@@ -61,8 +61,8 @@ SDL_Texture* cache_map(SDL_Renderer* renderer, map_t* map) {
   map_rect.y = (HEIGHT - map_rect.h)/2;
 */
 
-  int width = map->width * tile_draw_size;
-  int height = map->height * tile_draw_size;
+  u8 width = map->width * tile_draw_size;
+  u8 height = map->height * tile_draw_size;
 
   SDL_Texture* map_texture = SDL_CreateTexture(
     renderer,
@@ -126,13 +126,13 @@ void draw_bg(SDL_Renderer* renderer) {
 }
 
 
-void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, float rayA, player_t* player, map_t* map) {
+void draw_3d(SDL_Renderer* renderer, usize colNum, f32 rayDist, u8 pixels, f32 rayA, player_t* player, map_t* map) {
   /* 
   colNum - represents the current ray ('ray' value from for loop in cast_rays)
   rayDist - the shortest distance betweem distV and distH (the ray that will be rendered)
   pixels - how many pixels from left to right each ray will draw
   */ 
-  float angleDiff = player->a - rayA; // diff between player angle and ray angle
+  f32 angleDiff = player->a - rayA; // diff between player angle and ray angle
   //the rays that are out furthest from the player angle are going to have a greater distance
   //making them smaller (causing the fisheye effect)
   //normalize angleDiff
@@ -140,9 +140,9 @@ void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, floa
   if (angleDiff > PI*2) {angleDiff -= PI*2;}
   //fixes fisheye effect by making all rays of equal distance
   rayDist = rayDist * cos(angleDiff);
-  float lineH = (map->tile_size*HEIGHT) / rayDist; // the further away the rayDist, the smaller the wall height will be 
+  f32 lineH = (map->tile_size*HEIGHT) / rayDist; // the further away the rayDist, the smaller the wall height will be 
   if (lineH > HEIGHT) {lineH = HEIGHT;}
-  float lineO = (HEIGHT/2) - lineH/2; //line offset, so that render is centered vertically on the screen 
+  f32 lineO = (HEIGHT/2) - lineH/2; //line offset, so that render is centered vertically on the screen 
  
   for (int i=0; i<pixels; i++) {
     SDL_RenderDrawLine(

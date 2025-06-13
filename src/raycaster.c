@@ -7,20 +7,20 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
   //alg stops if a wall is detected
   //same is done for all vertical grid lines
 
-  int dof; // depth of field 
-  float rayX, rayY, rayA; //ray x, y, angle
-  float offsetX, offsetY; //the distance to the next line
-  int mapX, mapY; // determine which cell in the map the ray is
+  u8 dof; // depth of field 
+  f64 rayX, rayY, rayA; //ray x, y, angle
+  f32 offsetX, offsetY; //the distance to the next line
+  usize mapX, mapY; // determine which cell in the map the ray is
 
   //store the distances from player to the end of ray for:
-  float distH;//horizontal rays
-  float distV;//vertical rays
-  float distT; //will hold the shorter of the two rays
-  float hx, hy, vx, vy; //store x and y of horiontal and vertical checks seperately
-  int pixels = 5; //how many pixels each ray will take up
-  int num_rays = (WIDTH/2)/pixels; //number of rays required to fill up WIDTH/2 of the screen 
-  float fov = deg_to_rad(60); //fov = 60degrees in radianas
-  float step = fov/num_rays; //how much each ray will step 
+  f32 distH;//horizontal rays
+  f32 distV;//vertical rays
+  f32 distT; //will hold the shorter of the two rays
+  f32 hx, hy, vx, vy; //store x and y of horiontal and vertical checks seperately
+  u8 pixels = 5; //how many pixels each ray will take up
+  u8 num_rays = (WIDTH/2)/pixels; //number of rays required to fill up WIDTH/2 of the screen 
+  f32 fov = deg_to_rad(60); //fov = 60degrees in radianas
+  f32 step = fov/num_rays; //how much each ray will step 
   rayX = player->pos.x;
   rayY = player->pos.y;
    for (int ray=0; ray<num_rays; ray++) {
@@ -35,7 +35,7 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
     //it can be ruled as zero and therefore the ray is pointing approx directly left or right, and skipped
     if (fabs(sin(rayA)) > 0.001f) {
       dof = 0; //initilaize to 0, will be incrememnted every interation
-      float aTan = -1.0f / tan(rayA); //calculates inverse of tan
+      f32 aTan = -1.0f / tan(rayA); //calculates inverse of tan
 
       //HORIZONTAL LINE CHECKS 
       if (rayA > PI) { //if angle of ray is above 180deg, looking up
@@ -88,7 +88,7 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
   //VERTICAL LINE CHECKS
   if (fabs(cos(rayA)) > 0.001f) {
       dof = 0;
-      float nTan = -tan(rayA); //negative tan
+      f32 nTan = -tan(rayA); //negative tan
       //start at the next grid line (floor + map->tile_size)
       if (rayA < PI2 || rayA > 3*PI2) { //if angle of ray is below 90deg OR above 270deg, looking right
         rayX = floor(player->pos.x / map->tile_size) * map->tile_size + map->tile_size; //x position of the ray
@@ -143,30 +143,30 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
     //printf("distH: %f, distV: %f\n", distH, distV);
     
     //normalization divisor
-    float ndivw = (float)(map->width * map->tile_size);
-    float ndivh = (float)(map->height * map->tile_size);
+    f32 ndivw = (float)(map->width * map->tile_size);
+    f32 ndivh = (float)(map->height * map->tile_size);
     
     //normalize player x and y
-    float npx = player->pos.x / ndivw;
-    float npy = player->pos.y / ndivh;
+    f32 npx = player->pos.x / ndivw;
+    f32 npy = player->pos.y / ndivh;
     //normalize vx and vy
-    float nvx = vx/ndivw;
-    float nvy = vy/ndivh;
+    f32 nvx = vx/ndivw;
+    f32 nvy = vy/ndivh;
     //normalize hx and hy
-    float nhx = hx/ndivw;
-    float nhy = hy/ndivh;
+    f32 nhx = hx/ndivw;
+    f32 nhy = hy/ndivh;
 
     //translated player coords
-    int tpx = map_rect->x + (int)(npx * map_rect->w);
-    int tpy = map_rect->y + (int)(npy * map_rect->h);
+    u16 tpx = map_rect->x + (int)(npx * map_rect->w);
+    u16 tpy = map_rect->y + (int)(npy * map_rect->h);
 
-    int tvx = map_rect->x + (int)(nvx * map_rect->w);
-    int tvy = map_rect->y + (int)(nvy * map_rect->h);
+    u16 tvx = map_rect->x + (int)(nvx * map_rect->w);
+    u16 tvy = map_rect->y + (int)(nvy * map_rect->h);
 
-    int thx = map_rect->x + (int)(nhx * map_rect->w);
-    int thy = map_rect->x + (int)(nhy * map_rect->h);
+    u16 thx = map_rect->x + (int)(nhx * map_rect->w);
+    u16 thy = map_rect->x + (int)(nhy * map_rect->h);
  
-    float brightness;
+    f32 brightness;
 
 
     if (distH > distV) {

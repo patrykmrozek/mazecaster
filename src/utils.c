@@ -1,14 +1,14 @@
 #include "utils.h"
 
-double deg_to_rad(double degrees) {
-  double radians = degrees * (PI / 180);
+f64 deg_to_rad(f32 degrees) {
+  f64 radians = degrees * (PI / 180);
   return radians;
 }
 
-double calc_delta_time() {
-  static Uint32 prevTime = 0; //preserved between func calls
+f64 calc_delta_time() {
+  static u32 prevTime = 0; //preserved between func calls
 
-  Uint32 currTime = SDL_GetTicks(); // returns number of ms since SDL library init
+  u32 currTime = SDL_GetTicks(); // returns number of ms since SDL library init
   
   //if first call, return 60fps (1/60)
   if (prevTime == 0) {
@@ -16,7 +16,7 @@ double calc_delta_time() {
     return 1/60;
   }
 
-  double dTime = (currTime - prevTime) / 1000.; //convert to secs 
+  f64 dTime = (currTime - prevTime) / 1000.; //convert to secs 
   prevTime = currTime;
 
   // had issues with dTime being 0, causing supposed infinite FPS due to division by 0
@@ -27,9 +27,9 @@ double calc_delta_time() {
   return dTime;
 }
 
-float dist(float x1, float y1, float x2, float y2) {
-  float x_sqr = (x2-x1)*(x2-x1);
-  float y_sqr = (y2-y1)*(y2-y1);
-  float dist = sqrt(x_sqr+y_sqr);
+float dist(f32 x1, f32 y1, f32 x2, f32 y2) {
+  f32 x_sqr = (x2-x1)*(x2-x1);
+  f32 y_sqr = (y2-y1)*(y2-y1);
+  f32 dist = sqrt(x_sqr+y_sqr);
   return dist;
 }
