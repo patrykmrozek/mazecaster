@@ -1,7 +1,7 @@
 #include "game.h"
 
 void game_init(game_t* game) {
-  game->state = STATE_PLAYING;
+  game->state = STATE_MENU;
   game->window = init_window();
   game->renderer = get_renderer(game->window);
   game->map = generate_maze(5);

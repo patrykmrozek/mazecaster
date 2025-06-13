@@ -50,14 +50,14 @@ map_t* generate_maze(int n) {
   generate_maze_exit(map, graph);
   destroy_graph(graph); //can be immediately destroyed as we only need it for generating the exit
 
-  
+ /* 
   for (int i = 0; i < size; i ++) {
     for (int j = 0; j < size; j++) { 
       printf("%d ", map->grid[i][j]);
     }
     printf("\n");
   }
-
+*/
 
   return map;
 }
@@ -154,14 +154,14 @@ void generate_maze_exit(map_t* map, Graph* graph) {
     printf("%d - ", marked[i]);
   }
   */
-  printf("\n");
-  printf("FINAL CELL: %d\n", final_cell);
+  //printf("\n");
+  //printf("FINAL CELL: %d\n", final_cell);
   int final_row = (int)(final_cell/map->width);
   int final_col = (int)(final_cell%map->height);
   
   //add final row and col to map struct under exit as a Point type
   map->exit = (Point){final_row, final_col};
-  printf("ROW: %d - COL: %d\n", map->exit.x, map->exit.y);
+  //printf("ROW: %d - COL: %d\n", map->exit.x, map->exit.y);
   map->grid[final_row][final_col] = 2;  
   free(marked);
 }

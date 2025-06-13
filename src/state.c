@@ -12,21 +12,33 @@ game_state_handler_t state_handlers[STATE_COUNT] = {
  
 
 void game_update_menu(game_t* game, f64 delta_time) {
-
+  if (is_key_pressed(game->input, SDL_SCANCODE_RETURN)) {
+    printf("\t[[PLAYING]]\nPRESS [P] TO PAUSE\nPRESS [Q] OR [ESC] TO EXIT TO MENU\n\n");
+    game->state = STATE_PLAYING;
+  }
+  if (is_key_pressed(game->input, SDL_SCANCODE_Q) || is_key_pressed(game->input, SDL_SCANCODE_ESCAPE)) {
+    printf("\tEXITING GAME\n");
+    game->running = 0;
+  }
 }
 void game_render_menu(game_t* game) {
-
+  // TODO: RENDER MAIN MENU
 }
 
 
 void game_update_playing(game_t* game, f64 delta_time) {
   move_player(&game->player, game->input, delta_time);
   if (has_exit(game->player, *game->map)) {
+    printf("\t[[GAMEOVER]]\nPRESS [ENTER] OR [R] TO RESTART\nPRESS [Q] OR [ESC] TO EXIT TO MENU\n\n");
     game->state = STATE_GAMEOVER;
   }
   if (is_key_pressed(game->input, SDL_SCANCODE_P)) {
-    printf("PAUSED\n");
+    printf("\t[[PAUSED]]\nPRESS [P] OR [ENTER] TO UNPAUSE\nPRESS [Q] OR [ESC] TO EXIT TO MENU\n\n");
     game->state = STATE_PAUSED;
+  }
+  if (is_key_pressed(game->input, SDL_SCANCODE_Q) || is_key_pressed(game->input, SDL_SCANCODE_ESCAPE)) {
+    printf("\t[[MENU]]\nPRESS [ENTER] TO PLAY\nPRESS [Q] OR [ESC] TO EXIT THE GAME\n\n");
+    game_init(game);
   }
 }
 
@@ -44,21 +56,36 @@ void game_render_playing(game_t* game) {
 }
 
 void game_update_paused(game_t* game, f64 delta_time) {
-  if (is_key_pressed(game->input, SDL_SCANCODE_P)) {
-    printf("UNPAUSED\n");
+  if (is_key_pressed(game->input, SDL_SCANCODE_P) || is_key_pressed(game->input, SDL_SCANCODE_RETURN)) {
+    printf("\t[[PLAYING]]\nPRESS [P] TO PAUSE\nPRESS [Q] OR [ESC] TO EXIT TO MENU\n\n"); 
     game->state = STATE_PLAYING;
   }
+  if (is_key_pressed(game->input, SDL_SCANCODE_Q) || is_key_pressed(game->input, SDL_SCANCODE_ESCAPE)) {
+    printf("\t[[MENU]]\nPRESS [ENTER] TO PLAY\nPRESS [Q] OR [ESC] TO EXIT THE GAME\n\n");
+    game_init(game);
+  }
+
 
 }
 void game_render_paused(game_t* game) {
-
+// TODO: RENDER PAUSE MENU
 }
 
 void game_update_gameover(game_t* game, f64 delta_time) {
-  //printf("GAMEOVER\n");
+   if (is_key_pressed(game->input, SDL_SCANCODE_Q) || is_key_pressed(game->input, SDL_SCANCODE_ESCAPE)) {
+    printf("\t[[MENU]]\nPRESS [ENTER] TO PLAY\nPRESS [Q] OR [ESC] TO EXIT THE GAME\n\n");
+    game_init(game);
+  }
+  if (is_key_pressed(game->input, SDL_SCANCODE_RETURN) || is_key_pressed(game->input, SDL_SCANCODE_R)) {
+    printf("\t[[PLAYING]]\nPRESS [P] TO PAUSE\nPRESS [Q] OR [ESC] TO EXIT TO MENU\n\n"); 
+    game_init(game);
+    game->state = STATE_PLAYING;
+  }
+
+
 }
 void game_render_gameover(game_t* game) {
-
+  // TODO: RENDER GAMEOVER SCREEN
 }
 
 
