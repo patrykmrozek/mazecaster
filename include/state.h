@@ -4,7 +4,7 @@
 #include "types.h"
 #include <SDL2/SDL.h>
 
-typedef enum {
+typedef enum game_state {
   STATE_MENU,
   STATE_PLAYING,
   STATE_PAUSED,
@@ -15,7 +15,7 @@ typedef enum {
 struct game; //forward declaration
 
 //state handler struct 
-typedef struct {
+typedef struct game_state_handler {
   //function pointers, these will allow for dynamically calling update and render functions depending on current gameState
   void (*update)(struct game* game, f64 delta_time);
   void (*render)(struct game* game);

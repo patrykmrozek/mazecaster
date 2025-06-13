@@ -26,7 +26,7 @@ map_t* generate_maze(int n) {
   //only going to visit all even cells, eg: (0, 2) or (4, 0) or (2, 6) etc..
   int size = 2*n+1; // as to avoid open spaces being generated
   bool *visited = calloc(n*n, sizeof(bool)); //keep track of visited nodes
-  //Graph* graph = create_graph(size);
+  //graph_t* graph = create_graph(size);
 
   //dynamically sized matrix
   map_t* map = malloc(sizeof(map_t));
@@ -46,7 +46,7 @@ map_t* generate_maze(int n) {
   visited[1] = true;
   map->grid[1][1] = 0;
   _generate_maze(map, visited, 1, 1, size, n);
-  Graph* graph = create_graph(map->width * map->height);
+  graph_t* graph = create_graph(map->width * map->height);
   generate_maze_exit(map, graph);
   destroy_graph(graph); //can be immediately destroyed as we only need it for generating the exit
 
@@ -109,7 +109,7 @@ void _generate_maze(map_t* map, bool* visited, int row, int col, int size, int n
 
 }
 
-Graph* map_to_graph(map_t* map, Graph* graph) {
+graph_t* map_to_graph(map_t* map, graph_t* graph) {
   int w = map->width;
   int h = map->height;
   //for every cell in the map
@@ -139,9 +139,9 @@ bool is_exit(map_t* map, int i, int j) {
   return false;
 }
 
-void generate_maze_exit(map_t* map, Graph* graph) {
+void generate_maze_exit(map_t* map, graph_t* graph) {
   //printf("GRAPH SIZE: %d\n", graph->num_vertices);
-  Graph* g = map_to_graph(map, graph);
+  graph_t* g = map_to_graph(map, graph);
   bool* marked = calloc(g->num_vertices, sizeof(bool)); //marked array initialized to 0
   int start_cell = map->width + 1; //starting vertex is the cell where the player spawns
   int final_cell = 0; //will hold the final cell that was updated in the dfs, candidate for maze exit (passed by pointer)
@@ -159,14 +159,14 @@ void generate_maze_exit(map_t* map, Graph* graph) {
   int final_row = (int)(final_cell/map->width);
   int final_col = (int)(final_cell%map->height);
   
-  //add final row and col to map struct under exit as a Point type
-  map->exit = (Point){final_row, final_col};
+  //add final row and col to map struct under exit as a point_t type
+  map->exit = (point_t){final_row, final_col};
   //printf("ROW: %d - COL: %d\n", map->exit.x, map->exit.y);
   map->grid[final_row][final_col] = 2;  
   free(marked);
 }
 
-void _dfs(Graph* g, bool marked[], int v, int* final_cell) { //v = index of the vertex in the graph
+void _dfs(graph_t* g, bool marked[], int v, int* final_cell) { //v = index of the vertex in the graph
   dll* adj = g->adj_lists[v]; //adj is the list of all edges adjacent to v
   //printf("%d\n", adj->head->next->data);
   Node* current = adj->head->next;

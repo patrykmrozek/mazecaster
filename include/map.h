@@ -16,24 +16,24 @@ extern const int TILE_SIZE;
 extern const int MAP[][8];
 */
 
-typedef struct {
+typedef struct point{
   int x;
   int y;
-} Point;
+} point_t;
 
 typedef struct {
   int** grid; //map->grid[row][col]
   int width;
   int height;
   int tile_size;
-  Point exit;
+  point_t exit;
 } map_t;
 
 map_t* generate_maze(int n);
 void _generate_maze(map_t* map, bool* visited, int row, int col, int size, int n);
-Graph* map_to_graph(map_t* map, Graph* graph);
-void generate_maze_exit(map_t* map, Graph* graph);
-void _dfs(Graph* g, bool marked[], int v, int* final_cell);
+graph_t* map_to_graph(map_t* map, graph_t* graph);
+void generate_maze_exit(map_t* map, graph_t* graph);
+void _dfs(graph_t* g, bool marked[], int v, int* final_cell);
 bool is_exit(map_t* map, int i, int j);
 SDL_Rect get_map_rect(map_t* map);
 void destroy_map(map_t* map);

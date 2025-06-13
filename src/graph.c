@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Graph* create_graph(int num_vertices) {
+graph_t* create_graph(int num_vertices) {
   if (num_vertices <= 0) return NULL;
 
-  Graph* graph = malloc(sizeof(Graph));
+  graph_t* graph = malloc(sizeof(graph_t));
   if (graph==NULL) {
     printf("Error allocating graph\n"); 
     return NULL; 
@@ -13,7 +13,7 @@ Graph* create_graph(int num_vertices) {
 
   //allocates memory for 'num_vertices' amount of vertices
   //sets elt values to 0 (calloc initializes to 0)
-  graph->vertices = calloc(num_vertices, sizeof(Vertex));
+  graph->vertices = calloc(num_vertices, sizeof(vertex_t));
   if (graph->vertices==NULL) {
     printf("Error allocating vertices\n");
     free(graph);
@@ -35,7 +35,7 @@ Graph* create_graph(int num_vertices) {
   return graph;
 }
 
-void destroy_graph(Graph* graph) {
+void destroy_graph(graph_t* graph) {
   if (graph==NULL) return;
 
   //free all individual dll's if they exist
@@ -51,7 +51,7 @@ void destroy_graph(Graph* graph) {
 }
 
 
-bool add_edge(Graph* graph, int v1_index, int v2_index) {
+bool add_edge(graph_t* graph, int v1_index, int v2_index) {
   if ((v1_index >= graph->num_vertices || v1_index < 0) ||
       (v2_index >= graph->num_vertices || v2_index < 0)) return false;
 
@@ -83,7 +83,7 @@ bool add_edge(Graph* graph, int v1_index, int v2_index) {
 
 }
 
-void print_graph(Graph* graph) {
+void print_graph(graph_t* graph) {
 
   if (graph == NULL) {
     printf("graph is NULL\n");
