@@ -1,6 +1,6 @@
 #include "renderer.h"
 
-void draw_player(SDL_Renderer* renderer, Player* player, Map* map, SDL_Rect* map_rect) {
+void draw_player(SDL_Renderer* renderer, player_t* player, Map* map, SDL_Rect* map_rect) {
 
   //normalize player c and y to (0, 1) of original maze
   float nx = player->x / (float)(map->width * map->tile_size);
@@ -13,8 +13,8 @@ void draw_player(SDL_Renderer* renderer, Player* player, Map* map, SDL_Rect* map
   //scales player size based on scaling of minimap
   float p_size = map_rect->w/map->width/2;
 
-  //printf("Player world: %.1f, %.1f\n", player->x, player->y);
-  //printf("Player minimap: %d, %d\n", px, py);
+  //printf("player_t world: %.1f, %.1f\n", player->x, player->y);
+  //printf("player_t minimap: %d, %d\n", px, py);
 
   SDL_Rect playerRect = {px-(p_size/2), py-(p_size/2), p_size, p_size};
   SDL_SetRenderDrawColor(renderer, player->color.r, player->color.g, player->color.b, player->color.a);
@@ -126,7 +126,7 @@ void draw_bg(SDL_Renderer* renderer) {
 }
 
 
-void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, float rayA, Player* player, Map* map) {
+void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, float rayA, player_t* player, Map* map) {
   /* 
   colNum - represents the current ray ('ray' value from for loop in cast_rays)
   rayDist - the shortest distance betweem distV and distH (the ray that will be rendered)

@@ -29,7 +29,7 @@ typedef struct game {
   SDL_Window* window;
   SDL_Renderer* renderer;
   Map* map;
-  Player player;
+  player_t player;
   SDL_Texture* cached_map;
   SDL_Rect map_rect;
   InputState_t* input;

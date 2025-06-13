@@ -27,17 +27,17 @@ typedef struct {
   f64 dx, dy, a, size;
   f32 speed, sens;
   Color color;
-} Player;
+} player_t;
 
-void init_player(Player* player, Map* map);
-void move_left(Player* player, double delta);
-void move_right(Player* player, double delta);
-void move_forward(Player* player, double delta);
-void move_backward(Player* player, double delta);
-void look_left(Player* player, double delta);
-void look_right(Player* player, double delta);
-void move_player(Player* player, InputState_t* input, double delta);
-bool has_exit(Player player, Map map);
+void init_player(player_t* player, Map* map);
+void move_left(player_t* player, double delta);
+void move_right(player_t* player, double delta);
+void move_forward(player_t* player, double delta);
+void move_backward(player_t* player, double delta);
+void look_left(player_t* player, double delta);
+void look_right(player_t* player, double delta);
+void move_player(player_t* player, InputState_t* input, double delta);
+bool has_exit(player_t player, Map map);
 
 
 #endif

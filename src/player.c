@@ -1,7 +1,7 @@
 #include "player.h"
 
-void init_player(Player* player, Map* map) {
-  *player = (Player)
+void init_player(player_t* player, Map* map) {
+  *player = (player_t)
   {
     .x = map->tile_size + (map->tile_size/2),
     .y = map->tile_size + (map->tile_size/2),
@@ -17,29 +17,29 @@ void init_player(Player* player, Map* map) {
 
 
 
-void move_left(Player* player, double delta) {
+void move_left(player_t* player, double delta) {
   float strafe_angle = player->a - PI/2; 
   player->x += cos(strafe_angle) * player->speed * delta;
   player->y += sin(strafe_angle) * player->speed * delta;
 }
 
-void move_right(Player* player, double delta) {
+void move_right(player_t* player, double delta) {
   float strafe_angle = player->a + PI/2;
   player->x += cos(strafe_angle) * player->speed * delta;
   player->y += sin(strafe_angle) * player->speed * delta;
 }
 
-void move_forward(Player* player, double delta) {
+void move_forward(player_t* player, double delta) {
   player->x += player->dx * player->speed * delta;
   player->y += player->dy * player->speed * delta;
 }
 
-void move_backward(Player* player, double delta) {
+void move_backward(player_t* player, double delta) {
   player->x -= player->dx * player->speed * delta;
   player->y -= player->dy * player->speed * delta;
 }
 
-void look_left(Player* player, double delta) {
+void look_left(player_t* player, double delta) {
   player->a -= (player->sens * delta);
     if (player->a < 0) { // if player angle goes below zero, reset to 360(2PI)
       player->a += 2*PI;
@@ -49,7 +49,7 @@ void look_left(Player* player, double delta) {
     player->dy=sin(player->a);
 }
 
-void look_right(Player* player, double delta) {
+void look_right(player_t* player, double delta) {
   player->a += (player->sens * delta);
     if (player->a > 2*PI){ // if player angle goes above 360(2PI), reset to zero 
       player->a -= 2*PI;
@@ -59,7 +59,7 @@ void look_right(Player* player, double delta) {
     player->dy=sin(player->a);
 }
 
-void move_player(Player* player, InputState_t* input, double delta) {
+void move_player(player_t* player, InputState_t* input, double delta) {
   if (input->keys_down[SDL_SCANCODE_W]) {
     move_forward(player, delta);
   }
@@ -80,7 +80,7 @@ void move_player(Player* player, InputState_t* input, double delta) {
   }
 }
 
-bool has_exit(Player player, Map map) {
+bool has_exit(player_t player, Map map) {
   //player position in relation to the map matrix
   int player_row = floor(player.y / map.tile_size);
   int player_col = floor(player.x / map.tile_size);
