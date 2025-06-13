@@ -16,8 +16,8 @@ void game_init(game_t* game) {
   SDL_PumpEvents();
 }
 
-void game_update(game_t* game, f64 deltaTime) {
-  state_handlers[game->state].update(game, deltaTime);
+void game_update(game_t* game, f64 delta_time) {
+  state_handlers[game->state].update(game, delta_time);
 }
 
 void game_render(game_t* game) {

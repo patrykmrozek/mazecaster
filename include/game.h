@@ -31,7 +31,7 @@ typedef struct game {
 
 // functions for each state along with an init and destroy
 void game_init(game_t* game);
-void game_update(game_t* game, f64 deltaTime);
+void game_update(game_t* game, f64 delta_time);
 void game_render(game_t* game);
 void game_destroy(game_t* game);
 

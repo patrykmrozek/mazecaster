@@ -17,30 +17,30 @@ void init_player(player_t* player, map_t* map) {
 
 
 
-void move_left(player_t* player, double delta) {
+void move_left(player_t* player, double delta_time) {
   float strafe_angle = player->a - PI/2; 
-  player->x += cos(strafe_angle) * player->speed * delta;
-  player->y += sin(strafe_angle) * player->speed * delta;
+  player->x += cos(strafe_angle) * player->speed * delta_time;
+  player->y += sin(strafe_angle) * player->speed * delta_time;
 }
 
-void move_right(player_t* player, double delta) {
+void move_right(player_t* player, double delta_time) {
   float strafe_angle = player->a + PI/2;
-  player->x += cos(strafe_angle) * player->speed * delta;
-  player->y += sin(strafe_angle) * player->speed * delta;
+  player->x += cos(strafe_angle) * player->speed * delta_time;
+  player->y += sin(strafe_angle) * player->speed * delta_time;
 }
 
-void move_forward(player_t* player, double delta) {
-  player->x += player->dx * player->speed * delta;
-  player->y += player->dy * player->speed * delta;
+void move_forward(player_t* player, double delta_time) {
+  player->x += player->dx * player->speed * delta_time;
+  player->y += player->dy * player->speed * delta_time;
 }
 
-void move_backward(player_t* player, double delta) {
-  player->x -= player->dx * player->speed * delta;
-  player->y -= player->dy * player->speed * delta;
+void move_backward(player_t* player, double delta_time) {
+  player->x -= player->dx * player->speed * delta_time;
+  player->y -= player->dy * player->speed * delta_time;
 }
 
-void look_left(player_t* player, double delta) {
-  player->a -= (player->sens * delta);
+void look_left(player_t* player, double delta_time) {
+  player->a -= (player->sens * delta_time);
     if (player->a < 0) { // if player angle goes below zero, reset to 360(2PI)
       player->a += 2*PI;
     } 
@@ -49,8 +49,8 @@ void look_left(player_t* player, double delta) {
     player->dy=sin(player->a);
 }
 
-void look_right(player_t* player, double delta) {
-  player->a += (player->sens * delta);
+void look_right(player_t* player, double delta_time) {
+  player->a += (player->sens * delta_time);
     if (player->a > 2*PI){ // if player angle goes above 360(2PI), reset to zero 
       player->a -= 2*PI;
     }
@@ -59,24 +59,24 @@ void look_right(player_t* player, double delta) {
     player->dy=sin(player->a);
 }
 
-void move_player(player_t* player, input_state_t* input, double delta) {
+void move_player(player_t* player, input_state_t* input, double delta_time) {
   if (input->keys_down[SDL_SCANCODE_W]) {
-    move_forward(player, delta);
+    move_forward(player, delta_time);
   }
   if (input->keys_down[SDL_SCANCODE_S]) {
-    move_backward(player, delta);
+    move_backward(player, delta_time);
   }
   if (input->keys_down[SDL_SCANCODE_A]) {
-    move_left(player, delta);
+    move_left(player, delta_time);
   }
   if (input->keys_down[SDL_SCANCODE_D]) {
-    move_right(player, delta);
+    move_right(player, delta_time);
   }
   if (input->keys_down[SDL_SCANCODE_LEFT]) {
-    look_left(player, delta);
+    look_left(player, delta_time);
   }
   if (input->keys_down[SDL_SCANCODE_RIGHT]) {
-    look_right(player, delta);
+    look_right(player, delta_time);
   }
 }
 

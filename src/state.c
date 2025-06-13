@@ -11,7 +11,7 @@ game_state_handler_t state_handlers[STATE_COUNT] = {
 };
 
 
-void game_update_menu(game_t* game, f64 deltaTime) {
+void game_update_menu(game_t* game, f64 delta_time) {
 
 }
 void game_render_menu(game_t* game) {
@@ -19,8 +19,8 @@ void game_render_menu(game_t* game) {
 }
 
 
-void game_update_playing(game_t* game, f64 deltaTime) {
-  move_player(&game->player, game->input, deltaTime);
+void game_update_playing(game_t* game, f64 delta_time) {
+  move_player(&game->player, game->input, delta_time);
   if (has_exit(game->player, *game->map)) {
     game->state = STATE_GAMEOVER;
   }
@@ -39,14 +39,14 @@ void game_render_playing(game_t* game) {
     SDL_RenderPresent(game->renderer);
 }
 
-void game_update_paused(game_t* game, f64 deltaTime) {
+void game_update_paused(game_t* game, f64 delta_time) {
 
 }
 void game_render_paused(game_t* game) {
 
 }
 
-void game_update_gameover(game_t* game, f64 deltaTime) {
+void game_update_gameover(game_t* game, f64 delta_time) {
   printf("GAMEOVER\n");
 }
 void game_render_gameover(game_t* game) {

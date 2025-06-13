@@ -30,13 +30,13 @@ typedef struct {
 } player_t;
 
 void init_player(player_t* player, map_t* map);
-void move_left(player_t* player, double delta);
-void move_right(player_t* player, double delta);
-void move_forward(player_t* player, double delta);
-void move_backward(player_t* player, double delta);
-void look_left(player_t* player, double delta);
-void look_right(player_t* player, double delta);
-void move_player(player_t* player, input_state_t* input, double delta);
+void move_left(player_t* player, double delta_time);
+void move_right(player_t* player, double delta_time);
+void move_forward(player_t* player, double delta_time);
+void move_backward(player_t* player, double delta_time);
+void look_left(player_t* player, double delta_time);
+void look_right(player_t* player, double delta_time);
+void move_player(player_t* player, input_state_t* input, double delta_time);
 bool has_exit(player_t player, map_t map);
 
 
