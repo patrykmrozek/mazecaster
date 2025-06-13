@@ -28,7 +28,7 @@ typedef struct game {
   gameState_t state;
   SDL_Window* window;
   SDL_Renderer* renderer;
-  Map* map;
+  map_t* map;
   player_t player;
   SDL_Texture* cached_map;
   SDL_Rect map_rect;

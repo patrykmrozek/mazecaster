@@ -27,16 +27,16 @@ typedef struct {
   int height;
   int tile_size;
   Point exit;
-} Map;
+} map_t;
 
-Map* generate_maze(int n);
-void _generate_maze(Map* map, bool* visited, int row, int col, int size, int n);
-Graph* map_to_graph(Map* map, Graph* graph);
-void generate_maze_exit(Map* map, Graph* graph);
+map_t* generate_maze(int n);
+void _generate_maze(map_t* map, bool* visited, int row, int col, int size, int n);
+Graph* map_to_graph(map_t* map, Graph* graph);
+void generate_maze_exit(map_t* map, Graph* graph);
 void _dfs(Graph* g, bool marked[], int v, int* final_cell);
-bool is_exit(Map* map, int i, int j);
-SDL_Rect get_map_rect(Map* map);
-void destroy_map(Map* map);
+bool is_exit(map_t* map, int i, int j);
+SDL_Rect get_map_rect(map_t* map);
+void destroy_map(map_t* map);
 
 #endif
 

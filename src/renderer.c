@@ -1,6 +1,6 @@
 #include "renderer.h"
 
-void draw_player(SDL_Renderer* renderer, player_t* player, Map* map, SDL_Rect* map_rect) {
+void draw_player(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* map_rect) {
 
   //normalize player c and y to (0, 1) of original maze
   float nx = player->x / (float)(map->width * map->tile_size);
@@ -39,7 +39,7 @@ void draw_player(SDL_Renderer* renderer, player_t* player, Map* map, SDL_Rect* m
 }
 
 //instead of drawing map every frame, cache it to a texture and copy texture to the renderer every frame
-SDL_Texture* cache_map(SDL_Renderer* renderer, Map* map) {
+SDL_Texture* cache_map(SDL_Renderer* renderer, map_t* map) {
   
   int tile_draw_size = WIDTH / map->width;
   if (HEIGHT / map->height < tile_draw_size) {
@@ -126,7 +126,7 @@ void draw_bg(SDL_Renderer* renderer) {
 }
 
 
-void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, float rayA, player_t* player, Map* map) {
+void draw_3d(SDL_Renderer* renderer, int colNum, float rayDist, int pixels, float rayA, player_t* player, map_t* map) {
   /* 
   colNum - represents the current ray ('ray' value from for loop in cast_rays)
   rayDist - the shortest distance betweem distV and distH (the ray that will be rendered)

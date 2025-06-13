@@ -1,6 +1,6 @@
 #include "raycaster.h"
 
-void cast_rays(SDL_Renderer* renderer, player_t* player, Map* map, SDL_Rect* map_rect) {
+void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* map_rect) {
   //DDA ALGORITHM
   //finds which squares a line hits
   //first checks all horizontal grid lines from player in the direction of a ray for all rays 

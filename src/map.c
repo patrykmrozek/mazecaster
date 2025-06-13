@@ -22,14 +22,14 @@ const int MAP[][8] =
 
 */
 
-Map* generate_maze(int n) {
+map_t* generate_maze(int n) {
   //only going to visit all even cells, eg: (0, 2) or (4, 0) or (2, 6) etc..
   int size = 2*n+1; // as to avoid open spaces being generated
   bool *visited = calloc(n*n, sizeof(bool)); //keep track of visited nodes
   //Graph* graph = create_graph(size);
 
   //dynamically sized matrix
-  Map* map = malloc(sizeof(Map));
+  map_t* map = malloc(sizeof(map_t));
   map->width = size; //number of tiles
   map->height = size; //number of tiles
   map->tile_size = 64; //tile size in world units
@@ -62,7 +62,7 @@ Map* generate_maze(int n) {
   return map;
 }
 
-void _generate_maze(Map* map, bool* visited, int row, int col, int size, int n) {
+void _generate_maze(map_t* map, bool* visited, int row, int col, int size, int n) {
   //printf("SIZE: %d\n", map->width);
   int directions[4][2] = {
     {-2, 0},//up
@@ -109,7 +109,7 @@ void _generate_maze(Map* map, bool* visited, int row, int col, int size, int n) 
 
 }
 
-Graph* map_to_graph(Map* map, Graph* graph) {
+Graph* map_to_graph(map_t* map, Graph* graph) {
   int w = map->width;
   int h = map->height;
   //for every cell in the map
@@ -135,11 +135,11 @@ Graph* map_to_graph(Map* map, Graph* graph) {
   return graph;
 }
 
-bool is_exit(Map* map, int i, int j) {
+bool is_exit(map_t* map, int i, int j) {
   return false;
 }
 
-void generate_maze_exit(Map* map, Graph* graph) {
+void generate_maze_exit(map_t* map, Graph* graph) {
   //printf("GRAPH SIZE: %d\n", graph->num_vertices);
   Graph* g = map_to_graph(map, graph);
   bool* marked = calloc(g->num_vertices, sizeof(bool)); //marked array initialized to 0
@@ -184,7 +184,7 @@ void _dfs(Graph* g, bool marked[], int v, int* final_cell) { //v = index of the 
   }
 }
 
-SDL_Rect get_map_rect(Map* map) { //returns the size of the rectangle in which the map will be fit into
+SDL_Rect get_map_rect(map_t* map) { //returns the size of the rectangle in which the map will be fit into
   float map_aspect = (float)map->width/map->height;
   SDL_Rect map_rect;
   map_rect.w = WIDTH/2;
@@ -195,7 +195,7 @@ SDL_Rect get_map_rect(Map* map) { //returns the size of the rectangle in which t
   return map_rect;
 }
 
-void destroy_map(Map* map) {
+void destroy_map(map_t* map) {
   //free map
   for (int i = 0; i < map->height; i++) {
     free(map->grid[i]);

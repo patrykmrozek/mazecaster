@@ -1,6 +1,6 @@
 #include "player.h"
 
-void init_player(player_t* player, Map* map) {
+void init_player(player_t* player, map_t* map) {
   *player = (player_t)
   {
     .x = map->tile_size + (map->tile_size/2),
@@ -80,7 +80,7 @@ void move_player(player_t* player, InputState_t* input, double delta) {
   }
 }
 
-bool has_exit(player_t player, Map map) {
+bool has_exit(player_t player, map_t map) {
   //player position in relation to the map matrix
   int player_row = floor(player.y / map.tile_size);
   int player_col = floor(player.x / map.tile_size);

@@ -29,7 +29,7 @@ typedef struct {
   Color color;
 } player_t;
 
-void init_player(player_t* player, Map* map);
+void init_player(player_t* player, map_t* map);
 void move_left(player_t* player, double delta);
 void move_right(player_t* player, double delta);
 void move_forward(player_t* player, double delta);
@@ -37,7 +37,7 @@ void move_backward(player_t* player, double delta);
 void look_left(player_t* player, double delta);
 void look_right(player_t* player, double delta);
 void move_player(player_t* player, InputState_t* input, double delta);
-bool has_exit(player_t player, Map map);
+bool has_exit(player_t player, map_t map);
 
 
 #endif
