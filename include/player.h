@@ -5,10 +5,13 @@
 #include "inputs.h"
 #include "utils.h"
 #include "map.h"
+#include "types.h"
 
 #define PLAYER_SIZE 10
 #define PDX_INIT cos(player->a)*3
 #define PDY_INIT sin(player->a)*3
+
+
 
 //define new type - color - color in rgba format
 typedef struct {
@@ -19,9 +22,10 @@ typedef struct {
 #define COLOR_RED (Color){255, 0, 0, 255}
 
 typedef struct {
-  //x, y, deltaX, deltaY, angle, size
-  double x, y, dx, dy, a, size;
-  float speed, sens;
+  //vec2_t pos;
+  f32 x, y;
+  f64 dx, dy, a, size;
+  f32 speed, sens;
   Color color;
 } Player;
 

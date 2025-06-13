@@ -29,9 +29,7 @@ int main() {
     input_update(game.input);
     stateHandlers[game.state].update(&game, deltaTime);
     stateHandlers[game.state].render(&game);
-    //game_update(&game);
-    //game_render(&game);
-    //printf("FPS: %f\n", 1.0/deltaTime);
+   // printf("FPS: %f\n", 1.0/deltaTime);
   }
 
   game_destroy(&game);
