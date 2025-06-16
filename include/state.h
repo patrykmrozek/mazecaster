@@ -2,6 +2,7 @@
 #define STATE_H
 
 #include "types.h"
+#include "renderer.h"
 #include <SDL2/SDL.h>
 
 typedef enum game_state {

@@ -25,12 +25,14 @@ typedef struct game {
   SDL_Texture* cached_map;
   SDL_Rect map_rect;
   input_state_t* input;
+  TTF_Font* font;
   bool running;
 } game_t;
 
 
 // functions for each state along with an init and destroy
 void game_init(game_t* game);
+//void game_restart(game_t* game);
 void game_update(game_t* game, f64 delta_time);
 void game_render(game_t* game);
 void game_destroy(game_t* game);

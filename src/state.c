@@ -22,7 +22,8 @@ void game_update_menu(game_t* game, f64 delta_time) {
   }
 }
 void game_render_menu(game_t* game) {
-  // TODO: RENDER MAIN MENU
+  const char menu_text[] = "MENU";
+  draw_menu(game->renderer, game->font, menu_text);
 }
 
 
@@ -33,7 +34,7 @@ void game_update_playing(game_t* game, f64 delta_time) {
     game->state = STATE_GAMEOVER;
   }
   if (is_key_pressed(game->input, SDL_SCANCODE_P)) {
-    printf("\t[[PAUSED]]\nPRESS [P] OR [ENTER] TO UNPAUSE\nPRESS [Q] OR [ESC] TO EXIT TO MENU\n\n");
+    printf("\t[[PAUSED]]\nPRESS [P] OR [ENTER] TO UNPAUSE\nPRESS[R] TO RESTART\nPRESS [Q] OR [ESC] TO EXIT TO MENU\n\n");
     game->state = STATE_PAUSED;
   }
   if (is_key_pressed(game->input, SDL_SCANCODE_Q) || is_key_pressed(game->input, SDL_SCANCODE_ESCAPE)) {
@@ -64,17 +65,26 @@ void game_update_paused(game_t* game, f64 delta_time) {
     printf("\t[[MENU]]\nPRESS [ENTER] TO PLAY\nPRESS [Q] OR [ESC] TO EXIT THE GAME\n\n");
     game_init(game);
   }
+  /*
+  if (is_key_pressed(game->input, SDL_SCANCODE_R)) {
+    printf("\t[[PLAYING]]\nPRESS [P] TO PAUSE\nPRESS [Q] OR [ESC] TO EXIT TO MENU\n\n");
+    game_restart(game);
+  }
+  */
 
 
 }
+
 void game_render_paused(game_t* game) {
-// TODO: RENDER PAUSE MENU
+  const char pause_text[] = "PAUSED";
+  draw_menu(game->renderer, game->font, pause_text);
 }
 
 void game_update_gameover(game_t* game, f64 delta_time) {
    if (is_key_pressed(game->input, SDL_SCANCODE_Q) || is_key_pressed(game->input, SDL_SCANCODE_ESCAPE)) {
     printf("\t[[MENU]]\nPRESS [ENTER] TO PLAY\nPRESS [Q] OR [ESC] TO EXIT THE GAME\n\n");
     game_init(game);
+    //game_restart(game);
   }
   if (is_key_pressed(game->input, SDL_SCANCODE_RETURN) || is_key_pressed(game->input, SDL_SCANCODE_R)) {
     printf("\t[[PLAYING]]\nPRESS [P] TO PAUSE\nPRESS [Q] OR [ESC] TO EXIT TO MENU\n\n"); 
@@ -85,7 +95,8 @@ void game_update_gameover(game_t* game, f64 delta_time) {
 
 }
 void game_render_gameover(game_t* game) {
-  // TODO: RENDER GAMEOVER SCREEN
+  const char gameover_text[] = "GAMEOVER";
+  draw_menu(game->renderer, game->font, gameover_text);
 }
 
 

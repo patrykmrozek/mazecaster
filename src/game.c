@@ -10,11 +10,21 @@ void game_init(game_t* game) {
   init_player(&game->player, game->map);
   game->input = malloc(sizeof(input_state_t));
   input_init(game->input);
+  game->font = load_font();
   game->running = true;
 
   SDL_RaiseWindow(game->window);
   SDL_PumpEvents();
 }
+/*
+void game_restart(game_t* game) {
+  game->state = STATE_PLAYING;
+  game->map = generate_maze(5);
+  game->map_rect = get_map_rect(game->map);
+  game->cached_map = cache_map(game->renderer, game->map);
+  init_player(&game->player, game->map);
+}
+*/
 
 void game_update(game_t* game, f64 delta_time) {
   state_handlers[game->state].update(game, delta_time);

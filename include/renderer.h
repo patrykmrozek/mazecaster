@@ -10,5 +10,6 @@ void draw_player(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect*
 SDL_Texture* cache_map(SDL_Renderer* renderer, map_t* map);
 void draw_bg(SDL_Renderer* renderer);
 void draw_3d(SDL_Renderer* renderer, usize colNum, f32 rayDist, u8 pixels, f32 rayA, player_t* player, map_t* map);
+void draw_menu(SDL_Renderer* renderer, TTF_Font* font, const char* text);
 
 #endif 

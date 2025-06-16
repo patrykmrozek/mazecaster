@@ -29,7 +29,7 @@ TTF_Font* load_font() {
 		printf("TTF Initialization Failed: %s/n", TTF_GetError());
 		return NULL;
 	};
-	TTF_Font* font = TTF_OpenFont("Roboto-Regular.ttf", 25);
+	TTF_Font* font = TTF_OpenFont("fonts/Roboto-Regular.ttf", 25);
 	if (!font) {
 		printf("font not loaded\n");
 	}

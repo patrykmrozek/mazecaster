@@ -154,3 +154,42 @@ void draw_3d(SDL_Renderer* renderer, usize colNum, f32 rayDist, u8 pixels, f32 r
     );
     }  
 }
+
+void draw_menu(SDL_Renderer* renderer, TTF_Font* font, const char* text) {
+
+  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 50); //black with lowered opacity to dim the screen
+  SDL_Rect screen_rect = {0, 0, WIDTH, HEIGHT};
+  SDL_RenderFillRect(renderer, &screen_rect);
+
+
+  //const char text[] = "MENU";
+  SDL_Color text_color = {255, 255, 255, 255}; 
+  
+  SDL_Surface* text_surface = TTF_RenderText_Solid(font, text, text_color);
+  if (!text_surface) {
+    printf("TEXT SURFACE FAILED\n");
+    return;
+  }
+  SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
+  if (!text_texture) {
+    printf("TEXT TEXTURE FAILED\n");
+    return;
+  }
+
+  //centering text
+  SDL_Rect text_rect = {
+    (WIDTH - text_surface->w)/2,
+    (HEIGHT - text_surface->h)/2,
+    text_surface->w,
+    text_surface->h
+
+  };
+  
+  SDL_FreeSurface(text_surface); 
+
+  SDL_RenderCopy(renderer, text_texture, NULL, &text_rect); //render texture
+  SDL_RenderPresent(renderer); //show tecture on the screen 
+  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+  SDL_DestroyTexture(text_texture);
+}
