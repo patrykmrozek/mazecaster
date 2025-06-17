@@ -16,9 +16,9 @@ void init_player(player_t* player, map_t* map) {
 
 
 
-bool hit_wall(vec2_t pos, map_t* map) {
-  int row = floor(pos.y / map->tile_size);
-  int col = floor(pos.x / map->tile_size);
+bool hit_wall(vec2_t* pos, map_t* map) {
+  int row = floor(pos->y / map->tile_size);
+  int col = floor(pos->x / map->tile_size);
 
   if (map->grid[row][col] == 1) {
     printf("HIT WALL\n");
@@ -34,10 +34,21 @@ void move_left(player_t* player, map_t* map, double delta_time) {
     player->pos.x + cos(strafe_angle) * player->speed * delta_time,
     player->pos.y + sin(strafe_angle) * player->speed * delta_time
   };
-  
-  if (!hit_wall(new_pos, map)) {
-    player->pos = new_pos;
+ 
+  //simluates player x movement
+  vec2_t new_pos_x = {new_pos.x, player->pos.y};
+  //simulates player y movement
+  vec2_t new_pos_y = {player->pos.x,  new_pos.y};
+   
+  //if the x movement doesnt hits a wall, update x
+  if (!hit_wall(&new_pos_x, map)) {
+    player->pos.x = new_pos_x.x;
   }
+  //if the y movement doesnt hits a wall, update y
+  if (!hit_wall(&new_pos_y, map)) {
+    player->pos.y = new_pos_y.y;
+  }
+
 
 }
 
@@ -47,9 +58,15 @@ void move_right(player_t* player, map_t* map, double delta_time) {
     player->pos.x + cos(strafe_angle) * player->speed * delta_time,
     player->pos.y + sin(strafe_angle) * player->speed * delta_time
   };
-
-  if (!hit_wall(new_pos, map)) {
-    player->pos = new_pos;
+    
+  vec2_t new_pos_x = {new_pos.x, player->pos.y};
+  vec2_t new_pos_y = {player->pos.x,  new_pos.y};
+  
+  if (!hit_wall(&new_pos_x, map)) {
+    player->pos.x = new_pos_x.x;
+  }
+  if (!hit_wall(&new_pos_y, map)) {
+    player->pos.y = new_pos_y.y;
   }
 
 }
@@ -60,9 +77,17 @@ void move_forward(player_t* player, map_t* map, double delta_time) {
     player->pos.x + player->dx * player->speed * delta_time,
     player->pos.y + player->dy * player->speed * delta_time
   };
+
+  //isonaltes new x and y positions
+  vec2_t new_pos_x = {new_pos.x, player->pos.y};
+  vec2_t new_pos_y = {player->pos.x,  new_pos.y};
   
-  if (!hit_wall(new_pos, map)) {
-    player->pos = new_pos;
+  
+  if (!hit_wall(&new_pos_x, map)) {
+    player->pos.x = new_pos_x.x;
+  }
+  if (!hit_wall(&new_pos_y, map)) {
+    player->pos.y = new_pos_y.y;
   }
 }
 
@@ -72,10 +97,16 @@ void move_backward(player_t* player, map_t* map, double delta_time) {
     player->pos.y - player->dy * player->speed * delta_time
   };
 
-  if (!hit_wall(new_pos, map)) {
-    player->pos = new_pos;
+  vec2_t new_pos_x = {new_pos.x, player->pos.y};
+  vec2_t new_pos_y = {player->pos.x,  new_pos.y};
+  
+  
+  if (!hit_wall(&new_pos_x, map)) {
+    player->pos.x = new_pos_x.x;
   }
-
+  if (!hit_wall(&new_pos_y, map)) {
+    player->pos.y = new_pos_y.y;
+  }
 }
 
 void look_left(player_t* player, double delta_time) {

@@ -30,7 +30,7 @@ typedef struct {
 } player_t;
 
 void init_player(player_t* player, map_t* map);
-bool hit_wall(vec2_t pos, map_t* map);
+bool hit_wall(vec2_t* pos, map_t* map);
 void move_left(player_t* player, map_t* map, double delta_time);
 void move_right(player_t* player, map_t* map, double delta_time);
 void move_forward(player_t* player, map_t* map, double delta_time);
