@@ -30,7 +30,7 @@ void game_render_menu(game_t* game) {
 
 
 void game_update_playing(game_t* game, f64 delta_time) {
-  move_player(&game->player, game->input, delta_time);
+  move_player(&game->player, game->map, game->input, delta_time);
   if (has_exit(game->player, *game->map)) {
     printf("\t[[GAMEOVER]]\nPRESS [ENTER] OR [R] TO RESTART\nPRESS [Q] OR [ESC] TO EXIT TO MENU\n\n");
     game->state = STATE_GAMEOVER;

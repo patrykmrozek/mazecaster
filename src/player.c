@@ -16,26 +16,66 @@ void init_player(player_t* player, map_t* map) {
 
 
 
-void move_left(player_t* player, double delta_time) {
+bool hit_wall(vec2_t pos, map_t* map) {
+  int row = floor(pos.y / map->tile_size);
+  int col = floor(pos.x / map->tile_size);
+
+  if (map->grid[row][col] == 1) {
+    printf("HIT WALL\n");
+    return true;
+  }
+  return false;
+}
+
+
+void move_left(player_t* player, map_t* map, double delta_time) {
   float strafe_angle = player->a - PI/2; 
-  player->pos.x += cos(strafe_angle) * player->speed * delta_time;
-  player->pos.y += sin(strafe_angle) * player->speed * delta_time;
+  vec2_t new_pos = {
+    player->pos.x + cos(strafe_angle) * player->speed * delta_time,
+    player->pos.y + sin(strafe_angle) * player->speed * delta_time
+  };
+  
+  if (!hit_wall(new_pos, map)) {
+    player->pos = new_pos;
+  }
+
 }
 
-void move_right(player_t* player, double delta_time) {
+void move_right(player_t* player, map_t* map, double delta_time) {
   float strafe_angle = player->a + PI/2;
-  player->pos.x += cos(strafe_angle) * player->speed * delta_time;
-  player->pos.y += sin(strafe_angle) * player->speed * delta_time;
+  vec2_t new_pos = {
+    player->pos.x + cos(strafe_angle) * player->speed * delta_time,
+    player->pos.y + sin(strafe_angle) * player->speed * delta_time
+  };
+
+  if (!hit_wall(new_pos, map)) {
+    player->pos = new_pos;
+  }
+
 }
 
-void move_forward(player_t* player, double delta_time) {
-  player->pos.x += player->dx * player->speed * delta_time;
-  player->pos.y += player->dy * player->speed * delta_time;
+void move_forward(player_t* player, map_t* map, double delta_time) {
+
+  vec2_t new_pos = {
+    player->pos.x + player->dx * player->speed * delta_time,
+    player->pos.y + player->dy * player->speed * delta_time
+  };
+  
+  if (!hit_wall(new_pos, map)) {
+    player->pos = new_pos;
+  }
 }
 
-void move_backward(player_t* player, double delta_time) {
-  player->pos.x -= player->dx * player->speed * delta_time;
-  player->pos.y -= player->dy * player->speed * delta_time;
+void move_backward(player_t* player, map_t* map, double delta_time) {
+  vec2_t new_pos = {
+    player->pos.x - player->dx * player->speed * delta_time,
+    player->pos.y - player->dy * player->speed * delta_time
+  };
+
+  if (!hit_wall(new_pos, map)) {
+    player->pos = new_pos;
+  }
+
 }
 
 void look_left(player_t* player, double delta_time) {
@@ -58,18 +98,19 @@ void look_right(player_t* player, double delta_time) {
     player->dy=sin(player->a);
 }
 
-void move_player(player_t* player, input_state_t* input, double delta_time) {
+
+void move_player(player_t* player, map_t* map, input_state_t* input, double delta_time) {
   if (input->keys_down[SDL_SCANCODE_W]) {
-    move_forward(player, delta_time);
+    move_forward(player, map, delta_time);
   }
   if (input->keys_down[SDL_SCANCODE_S]) {
-    move_backward(player, delta_time);
+    move_backward(player, map, delta_time);
   }
   if (input->keys_down[SDL_SCANCODE_A]) {
-    move_left(player, delta_time);
+    move_left(player, map, delta_time);
   }
   if (input->keys_down[SDL_SCANCODE_D]) {
-    move_right(player, delta_time);
+    move_right(player, map, delta_time);
   }
   if (input->keys_down[SDL_SCANCODE_LEFT]) {
     look_left(player, delta_time);

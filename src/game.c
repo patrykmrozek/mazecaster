@@ -38,6 +38,8 @@ void game_render(game_t* game) {
 void game_destroy(game_t* game) {
   free(game->input);
   destroy_map(game->map);
+  TTF_CloseFont(game->font.main);
+  TTF_CloseFont(game->font.desc);
   SDL_DestroyTexture(game->cached_map);
   SDL_DestroyRenderer(game->renderer);
   SDL_DestroyWindow(game->window);
