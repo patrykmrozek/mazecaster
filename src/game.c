@@ -10,7 +10,8 @@ void game_init(game_t* game) {
   init_player(&game->player, game->map);
   game->input = malloc(sizeof(input_state_t));
   input_init(game->input);
-  game->font = load_font();
+  game->font.main = load_font_main();
+  game->font.desc = load_font_desc();
   game->running = true;
 
   SDL_RaiseWindow(game->window);

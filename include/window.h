@@ -9,6 +9,7 @@
 
 SDL_Window* init_window();
 SDL_Renderer* get_renderer(SDL_Window* window);
-TTF_Font* load_font();
+TTF_Font* load_font_main();
+TTF_Font* load_font_desc();
 
 #endif

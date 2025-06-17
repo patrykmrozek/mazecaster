@@ -21,9 +21,11 @@ void game_update_menu(game_t* game, f64 delta_time) {
     game->running = 0;
   }
 }
+
 void game_render_menu(game_t* game) {
-  const char menu_text[] = "MENU";
-  draw_menu(game->renderer, game->font, menu_text);
+  const char menu_main_text[] = "MENU";
+  const char menu_description_text[] = "PRESS [ENTER] TO PLAY - PRESS [Q] OR [ESC] TO EXIT THE GAME";
+  draw_menu(game->renderer, game->font.main, game->font.desc, menu_main_text, menu_description_text);
 }
 
 
@@ -71,13 +73,12 @@ void game_update_paused(game_t* game, f64 delta_time) {
     game_restart(game);
   }
   */
-
-
 }
 
 void game_render_paused(game_t* game) {
-  const char pause_text[] = "PAUSED";
-  draw_menu(game->renderer, game->font, pause_text);
+  const char pause_main_text[] = "PAUSED";
+  const char pause_description_text[] = "PRESS [P] OR [ENTER] TO UNPAUSE - PRESS[R] TO RESTART - PRESS [Q] OR [ESC] TO EXIT TO MENU";
+  draw_menu(game->renderer, game->font.main, game->font.desc, pause_main_text, pause_description_text);
 }
 
 void game_update_gameover(game_t* game, f64 delta_time) {
@@ -95,8 +96,9 @@ void game_update_gameover(game_t* game, f64 delta_time) {
 
 }
 void game_render_gameover(game_t* game) {
-  const char gameover_text[] = "GAMEOVER";
-  draw_menu(game->renderer, game->font, gameover_text);
+  const char gameover_main_text[] = "GAMEOVER";
+  const char gameover_description_text[] = "PRESS [ENTER] OR [R] TO RESTART - PRESS [Q] OR [ESC] TO EXIT TO MENU";
+  draw_menu(game->renderer, game->font.main, game->font.desc, gameover_main_text, gameover_description_text);
 }
 
 

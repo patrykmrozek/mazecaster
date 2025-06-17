@@ -23,15 +23,28 @@ SDL_Renderer* get_renderer(SDL_Window* window) {
 }
 
 //fetch and load font
-TTF_Font* load_font() {
+TTF_Font* load_font_main() {
 	//initialize TTF, check for errors
 	if (TTF_Init() == -1) {
 		printf("TTF Initialization Failed: %s/n", TTF_GetError());
 		return NULL;
 	};
-	TTF_Font* font = TTF_OpenFont("fonts/Roboto-Regular.ttf", 25);
-	if (!font) {
+	TTF_Font* font_main = TTF_OpenFont("fonts/Roboto-Regular.ttf", 25);
+	if (!font_main) {
 		printf("font not loaded\n");
 	}
-	return font;
+	return font_main;
+}
+
+TTF_Font* load_font_desc() {
+	//initialize TTF, check for errors
+	if (TTF_Init() == -1) {
+		printf("TTF Initialization Failed: %s/n", TTF_GetError());
+		return NULL;
+	};
+	TTF_Font* font_desc = TTF_OpenFont("fonts/Roboto-Regular.ttf", 15);
+	if (!font_desc) {
+		printf("font not loaded\n");
+	}
+	return font_desc;
 }

@@ -16,6 +16,11 @@
 #include "map.h"
 #include "utils.h"
 
+typedef struct font {
+  TTF_Font* main;
+  TTF_Font* desc;
+} font_t;
+
 typedef struct game {
   game_state_t state;
   SDL_Window* window;
@@ -25,7 +30,7 @@ typedef struct game {
   SDL_Texture* cached_map;
   SDL_Rect map_rect;
   input_state_t* input;
-  TTF_Font* font;
+  font_t font;
   bool running;
 } game_t;
 

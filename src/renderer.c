@@ -155,7 +155,7 @@ void draw_3d(SDL_Renderer* renderer, usize colNum, f32 rayDist, u8 pixels, f32 r
     }  
 }
 
-void draw_menu(SDL_Renderer* renderer, TTF_Font* font, const char* text) {
+void draw_menu(SDL_Renderer* renderer, TTF_Font* font_main, TTF_Font* font_desc, const char* text_main, const char* text_description) {
 
   SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 50); //black with lowered opacity to dim the screen
@@ -166,30 +166,62 @@ void draw_menu(SDL_Renderer* renderer, TTF_Font* font, const char* text) {
   //const char text[] = "MENU";
   SDL_Color text_color = {255, 255, 255, 255}; 
   
-  SDL_Surface* text_surface = TTF_RenderText_Solid(font, text, text_color);
-  if (!text_surface) {
-    printf("TEXT SURFACE FAILED\n");
+  SDL_Surface* text_main_surface = TTF_RenderText_Solid(font_main, text_main, text_color);
+  if (!text_main_surface) {
+    printf("TEXT MAIN SURFACE FAILED\n");
     return;
   }
-  SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
-  if (!text_texture) {
-    printf("TEXT TEXTURE FAILED\n");
+  SDL_Texture* text_main_texture = SDL_CreateTextureFromSurface(renderer, text_main_surface);
+  if (!text_main_texture) {
+    printf("TEXT MAIN TEXTURE FAILED\n");
+    SDL_FreeSurface(text_main_surface);
     return;
   }
 
-  //centering text
-  SDL_Rect text_rect = {
-    (WIDTH - text_surface->w)/2,
-    (HEIGHT - text_surface->h)/2,
-    text_surface->w,
-    text_surface->h
+  //SDL_Surface* text_description_surface = TTF_RenderText_Solid(font, text_description, text_color);
+  int wrap_width = WIDTH - (WIDTH/10); //margin for text wrapping
+  SDL_Surface* text_description_surface = TTF_RenderText_Blended_Wrapped(font_desc, text_description, text_color, wrap_width);
+  if (!text_description_surface) {
+    printf("TEXT DESCRIPTION FAILED\n");
+    SDL_FreeSurface(text_main_surface);
+    SDL_DestroyTexture(text_main_texture);
+    return;
+  }
+  SDL_Texture* text_description_texture = SDL_CreateTextureFromSurface(renderer, text_description_surface);
+  if (!text_description_texture) {
+    printf("TEXT DESCRIPTION TEXTURE FAILED\n");
+    SDL_FreeSurface(text_main_surface);
+    SDL_DestroyTexture(text_main_texture);
+    SDL_FreeSurface(text_description_surface);
+    return;
+  }
 
+
+  //centering main text
+  SDL_Rect text_main_rect = {
+    (WIDTH - text_main_surface->w) / 2,
+    (HEIGHT - text_main_surface->h) / 2-20,
+    text_main_surface->w,
+    text_main_surface->h
+  };
+
+  SDL_Rect text_description_rect = {
+    (WIDTH - text_description_surface->w) / 2,
+    text_main_rect.y + text_main_rect.h + 10,
+    text_description_surface->w,
+    text_description_surface->h
   };
   
-  SDL_FreeSurface(text_surface); 
+  SDL_FreeSurface(text_main_surface);
+  SDL_FreeSurface(text_description_surface); 
 
-  SDL_RenderCopy(renderer, text_texture, NULL, &text_rect); //render texture
+  SDL_RenderCopy(renderer, text_main_texture, NULL, &text_main_rect); //render main texture 
+  SDL_RenderCopy(renderer, text_description_texture, NULL, &text_description_rect); //render texture
   SDL_RenderPresent(renderer); //show tecture on the screen 
+  
   SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
-  SDL_DestroyTexture(text_texture);
+  SDL_DestroyTexture(text_main_texture); 
+  SDL_DestroyTexture(text_description_texture);
 }
+
+
