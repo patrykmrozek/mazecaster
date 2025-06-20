@@ -21,7 +21,7 @@ bool hit_wall(vec2_t* pos, map_t* map) {
   int col = floor(pos->x / map->tile_size);
 
   if (map->grid[row][col] == 1) {
-    printf("HIT WALL\n");
+    //printf("HIT WALL\n");
     return true;
   }
   return false;

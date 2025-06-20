@@ -1,6 +1,6 @@
 #include "raycaster.h"
 
-void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* map_rect) {
+void cast_rays(SDL_Renderer* renderer, bool map_visible, player_t* player, map_t* map, SDL_Rect* map_rect) {
   //DDA ALGORITHM
   //finds which squares a line hits
   //first checks all horizontal grid lines from player in the direction of a ray for all rays 
@@ -18,8 +18,10 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
   f32 distT; //will hold the shorter of the two rays
   f32 hx, hy, vx, vy; //store x and y of horiontal and vertical checks seperately
   u8 pixels = 5; //how many pixels each ray will take up
-  u8 num_rays = (WIDTH/2)/pixels; //number of rays required to fill up WIDTH/2 of the screen 
-  f32 fov = deg_to_rad(60); //fov = 60degrees in radianas
+  //if map_visible, there will be enough rays to fill half the screen
+  //otherwise, there will be enough to fill the whole screen
+  u8 num_rays = (map_visible) ? (WIDTH/2)/pixels : (WIDTH/pixels); //number of rays required to fill up WIDTH/2 of the screen 
+  f32 fov = (map_visible) ? deg_to_rad(60) : deg_to_rad(80); //fov = 60degrees in radianas
   f32 step = fov/num_rays; //how much each ray will step 
   rayX = player->pos.x;
   rayY = player->pos.y;
@@ -168,7 +170,6 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
  
     f32 brightness;
 
-
     if (distH > distV) {
       distT = distV;
       brightness = 1.0f - (distT/((dof/1.2)*map->tile_size));
@@ -176,7 +177,9 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
       if (brightness>1) brightness=1;
   
       SDL_SetRenderDrawColor(renderer, 200*brightness, 0, 255*brightness, 0);
-      SDL_RenderDrawLine(renderer, tpx, tpy, tvx, tvy);
+      if (map_visible) {
+        SDL_RenderDrawLine(renderer, tpx, tpy, tvx, tvy);
+      };
       
     } else {
       distT = distH;
@@ -185,14 +188,16 @@ void cast_rays(SDL_Renderer* renderer, player_t* player, map_t* map, SDL_Rect* m
       if (brightness>1) brightness=1;
 
       SDL_SetRenderDrawColor(renderer, 255*brightness, 0, 255*brightness, 0);
-      SDL_RenderDrawLine(renderer, tpx, tpy, thx, thy);
+      if (map_visible) {
+        SDL_RenderDrawLine(renderer, tpx, tpy, thx, thy);
+      };
 
     }
 
    //printf("DIST: %f\n", distT);
 
   //render 3d scene 
-  draw_3d(renderer, ray, distT, pixels, rayA, player, map);
+  draw_3d(renderer, map_visible, ray, distT, pixels, rayA, player, map);
 
   rayA += deg_to_rad(step); //add 1 degree in radians to the rays angle
 

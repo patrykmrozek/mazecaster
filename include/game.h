@@ -10,8 +10,6 @@
 #include "state.h"
 #include "window.h"
 #include "player.h"
-#include "renderer.h"
-#include "raycaster.h"
 #include "inputs.h"
 #include "map.h"
 #include "utils.h"
@@ -20,6 +18,7 @@ typedef struct font {
   TTF_Font* main;
   TTF_Font* desc;
 } font_t;
+
 
 typedef struct game {
   game_state_t state;
@@ -31,6 +30,7 @@ typedef struct game {
   SDL_Rect map_rect;
   input_state_t* input;
   font_t font;
+  bool map_visible;
   bool running;
 } game_t;
 

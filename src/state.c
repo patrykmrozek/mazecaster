@@ -20,7 +20,8 @@ void game_update_menu(game_t* game, f64 delta_time) {
     printf("\tEXITING GAME\n");
     game->running = 0;
   }
-}
+
+ }
 
 void game_render_menu(game_t* game) {
   const char menu_main_text[] = "MENU";
@@ -43,18 +44,25 @@ void game_update_playing(game_t* game, f64 delta_time) {
     printf("\t[[MENU]]\nPRESS [ENTER] TO PLAY\nPRESS [Q] OR [ESC] TO EXIT THE GAME\n\n");
     game_init(game);
   }
+  if (is_key_pressed(game->input, SDL_SCANCODE_M)) {
+    //printf("M PRESSED\n");
+    game->map_visible = !game->map_visible; //inverts map_visible current state
+  }
+
 }
 
 void game_render_playing(game_t* game) {
     SDL_SetRenderDrawColor(game->renderer, 0, 0, 0, 255);
     SDL_RenderClear(game->renderer);//clear screen
-    SDL_RenderCopy(game->renderer, game->cached_map, NULL, &game->map_rect);//copy map texture to renderer instead of redrawing every frame
-    draw_player(game->renderer, &game->player, game->map, &game->map_rect);
+    if (game->map_visible) {
+      SDL_RenderCopy(game->renderer, game->cached_map, NULL, &game->map_rect);//copy map texture to renderer instead of redrawing every frame
+      draw_player(game->renderer, &game->player, game->map, &game->map_rect); 
+  };
     //printf("X: %f, Y: %f\n", player.x, player.y);
     //printf("ROW: %f, COL: %f\n", floor(player.y / map->tile_size), floor(player.x / map->tile_size));
-    draw_bg(game->renderer);
+    draw_bg(game->renderer, game->map_visible);
     //printf("X: %f, Y: %f ANGLE: %f\n", player.x, player.y, player.a);
-    cast_rays(game->renderer, &game->player, game->map, &game->map_rect);
+    cast_rays(game->renderer, game->map_visible, &game->player, game->map, &game->map_rect);
     SDL_RenderPresent(game->renderer);
 }
 

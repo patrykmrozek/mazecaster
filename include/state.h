@@ -1,9 +1,13 @@
 #ifndef STATE_H 
 #define STATE_H
 
+
+#include <SDL2/SDL.h>
+#include <stdio.h>
+
 #include "types.h"
 #include "renderer.h"
-#include <SDL2/SDL.h>
+#include "raycaster.h"
 
 typedef enum game_state {
   STATE_MENU,

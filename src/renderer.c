@@ -105,18 +105,22 @@ SDL_Texture* cache_map(SDL_Renderer* renderer, map_t* map) {
 
 }
 
-void draw_bg(SDL_Renderer* renderer) {
+void draw_bg(SDL_Renderer* renderer, bool map_visible) {
+  
+  int draw_offset_left = (map_visible) ? (WIDTH/2) : 0;
+  int draw_offset_right = (map_visible) ? (WIDTH/2) : WIDTH;
+  
   SDL_Rect floor = {
-    WIDTH/2,
+    draw_offset_left,
     HEIGHT/2,
-    WIDTH/2,
+    draw_offset_right,
     HEIGHT/2
   };
 
   SDL_Rect roof = {
-    WIDTH/2,
+    draw_offset_left,
     0,
-    WIDTH/2,
+    draw_offset_right,
     HEIGHT/2
   };
   SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
@@ -126,7 +130,7 @@ void draw_bg(SDL_Renderer* renderer) {
 }
 
 
-void draw_3d(SDL_Renderer* renderer, usize colNum, f32 rayDist, u8 pixels, f32 rayA, player_t* player, map_t* map) {
+void draw_3d(SDL_Renderer* renderer, bool map_visible, usize colNum, f32 rayDist, u8 pixels, f32 rayA, player_t* player, map_t* map) {
   /* 
   colNum - represents the current ray ('ray' value from for loop in cast_rays)
   rayDist - the shortest distance betweem distV and distH (the ray that will be rendered)
@@ -143,13 +147,15 @@ void draw_3d(SDL_Renderer* renderer, usize colNum, f32 rayDist, u8 pixels, f32 r
   f32 lineH = (map->tile_size*HEIGHT) / rayDist; // the further away the rayDist, the smaller the wall height will be 
   if (lineH > HEIGHT) {lineH = HEIGHT;}
   f32 lineO = (HEIGHT/2) - lineH/2; //line offset, so that render is centered vertically on the screen 
- 
+  
+  int draw_offset = (map_visible) ? (WIDTH/2) : 0;
+
   for (int i=0; i<pixels; i++) {
     SDL_RenderDrawLine(
       renderer,
-      (colNum*pixels) + (WIDTH/2) + i, // offsets the scene to the right of the incrememnted
+      (colNum*pixels) + draw_offset + i, // offsets the scene to the right of the incrememnted
       lineO,
-      (colNum*pixels) + (WIDTH/2) + i,
+      (colNum*pixels) + draw_offset + i,
       lineH + lineO
     );
     }  
