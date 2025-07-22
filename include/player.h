@@ -8,25 +8,25 @@
 #include "types.h"
 
 #define PLAYER_SIZE 10
+#define PLAYER_SPEED_WALK 150.0f
+#define PLAYER_SPEED_SPRINT 200.0f
 #define PDX_INIT cos(player->a)*3
 #define PDY_INIT sin(player->a)*3
 
-
-
-//define new type - color - color in rgba format
 typedef struct {
   Uint8 r, g, b, a;
-} Color;
+} color_t;
 
-#define COLOR_WHITE (Color){255, 255, 255, 255}
-#define COLOR_RED (Color){255, 0, 0, 255}
+#define COLOR_WHITE (color_t){255, 255, 255, 255}
+#define COLOR_RED (color_t){255, 0, 0, 255}
 
 typedef struct {
   vec2_t pos;
   //f32 x, y;
   f64 dx, dy, a, size;
   f32 speed, sens;
-  Color color;
+  bool is_sprinting;
+  color_t color;
 } player_t;
 
 void init_player(player_t* player, map_t* map);

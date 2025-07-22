@@ -12,7 +12,7 @@ void game_init(game_t* game) {
   input_init(game->input);
   game->font.main = load_font_main();
   game->font.desc = load_font_desc();
-  game->map_visible = true;
+  game->map_visible = false;
   game->running = true;
 
   SDL_RaiseWindow(game->window);

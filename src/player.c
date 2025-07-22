@@ -8,9 +8,10 @@ void init_player(player_t* player, map_t* map) {
     .dy = PDY_INIT,
     .a = deg_to_rad(45),
     .size = PLAYER_SIZE,
-    .speed = 150.0f,
+    .speed = PLAYER_SPEED_WALK,
     .sens = 2.0f,
-    COLOR_RED
+    .is_sprinting = false,
+    .color = COLOR_RED
   }; 
 }
 
@@ -48,8 +49,6 @@ void move_left(player_t* player, map_t* map, double delta_time) {
   if (!hit_wall(&new_pos_y, map)) {
     player->pos.y = new_pos_y.y;
   }
-
-
 }
 
 void move_right(player_t* player, map_t* map, double delta_time) {
@@ -68,7 +67,6 @@ void move_right(player_t* player, map_t* map, double delta_time) {
   if (!hit_wall(&new_pos_y, map)) {
     player->pos.y = new_pos_y.y;
   }
-
 }
 
 void move_forward(player_t* player, map_t* map, double delta_time) {
@@ -149,7 +147,15 @@ void move_player(player_t* player, map_t* map, input_state_t* input, double delt
   if (input->keys_down[SDL_SCANCODE_RIGHT]) {
     look_right(player, delta_time);
   }
+  if (input->keys_down[SDL_SCANCODE_LSHIFT] && !player->is_sprinting) {
+    player->is_sprinting = true;
+    player->speed = PLAYER_SPEED_SPRINT;
+  } else if (input->keys_released[SDL_SCANCODE_LSHIFT] && player->is_sprinting) {
+    player->is_sprinting = false;
+    player->speed = PLAYER_SPEED_WALK;
+  }
 }
+
 
 bool has_exit(player_t player, map_t map) {
   //player position in relation to the map matrix

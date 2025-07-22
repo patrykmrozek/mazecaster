@@ -21,7 +21,7 @@ void cast_rays(SDL_Renderer* renderer, bool map_visible, player_t* player, map_t
   //if map_visible, there will be enough rays to fill half the screen
   //otherwise, there will be enough to fill the whole screen
   u8 num_rays = (map_visible) ? (WIDTH/2)/pixels : (WIDTH/pixels); //number of rays required to fill up WIDTH/2 of the screen 
-  f32 fov = (map_visible) ? deg_to_rad(60) : deg_to_rad(80); //fov = 60degrees in radianas
+  f32 fov = (map_visible) ? deg_to_rad(60) : deg_to_rad(80);
   f32 step = fov/num_rays; //how much each ray will step 
   rayX = player->pos.x;
   rayY = player->pos.y;
