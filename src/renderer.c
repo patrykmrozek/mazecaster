@@ -170,11 +170,15 @@ void draw_menu(SDL_Renderer* renderer, TTF_Font* font_main, TTF_Font* font_desc,
 
 
   //const char text[] = "MENU";
-  SDL_Color text_color = {255, 255, 255, 255}; 
+  SDL_Color text_color = {255, 255, 255, 255};
+
+  if (!font_main) {
+        printf("font_main failed\n");
+    }
   
   SDL_Surface* text_main_surface = TTF_RenderText_Solid(font_main, text_main, text_color);
   if (!text_main_surface) {
-    printf("TEXT MAIN SURFACE FAILED\n");
+    printf("TEXT MAIN SURFACE FAILED: %s\n", SDL_GetError());
     return;
   }
   SDL_Texture* text_main_texture = SDL_CreateTextureFromSurface(renderer, text_main_surface);
@@ -213,7 +217,7 @@ void draw_menu(SDL_Renderer* renderer, TTF_Font* font_main, TTF_Font* font_desc,
 
   SDL_Rect text_description_rect = {
     (WIDTH - text_description_surface->w) / 2,
-    text_main_rect.y + text_main_rect.h + 10,
+    text_main_rect.y + text_main_rect.h + (HEIGHT/10),
     text_description_surface->w,
     text_description_surface->h
   };

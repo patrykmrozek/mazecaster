@@ -29,7 +29,7 @@ TTF_Font* load_font_main() {
 		printf("TTF Initialization Failed: %s/n", TTF_GetError());
 		return NULL;
 	};
-	TTF_Font* font_main = TTF_OpenFont("fonts/Roboto-Regular.ttf", 25);
+	TTF_Font* font_main = TTF_OpenFont("../fonts/Roboto-Regular.ttf", 25);
 	if (!font_main) {
 		printf("font not loaded\n");
 	}
@@ -42,7 +42,7 @@ TTF_Font* load_font_desc() {
 		printf("TTF Initialization Failed: %s/n", TTF_GetError());
 		return NULL;
 	};
-	TTF_Font* font_desc = TTF_OpenFont("fonts/Roboto-Regular.ttf", 15);
+	TTF_Font* font_desc = TTF_OpenFont("../fonts/Roboto-Regular.ttf", 15);
 	if (!font_desc) {
 		printf("font not loaded\n");
 	}
