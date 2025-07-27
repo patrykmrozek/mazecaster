@@ -4,4 +4,3 @@ build/
 raycast
 *.o
 .DS_Store
-*.JPG
