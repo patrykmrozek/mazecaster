@@ -1,7 +1,7 @@
 # mazecaster
 A simple raycasting engine written in C using SDL2 that generates and renders 3D-style mazes for the player to explore.
 
-![Mazecaster Screenshot](images/mazecaster-sreenshot.JPG)
+![Mazecaster Screenshot](images/mazecaster-screenshot.JPG)
 
 ## Features
 - **Raycasting Engine:** Implements classic raycasting techniques for 3D-like rendering.
