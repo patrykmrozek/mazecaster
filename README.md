@@ -19,7 +19,7 @@ A simple raycasting engine written in C using SDL2 that generates and renders 3D
 
 ## How to build
 ```console
-git clone --recursive https://github.com/patrykmrozek/mazecaster.git
+git clone https://github.com/patrykmrozek/mazecaster.git
 cd mazecaster
 mkdir build
 cd build
