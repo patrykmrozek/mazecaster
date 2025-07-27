@@ -4,7 +4,7 @@
 SDL_Window* init_window() {	
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Window* window = SDL_CreateWindow(
-		"Raycast",
+		"Mazecaster",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		WIDTH,
