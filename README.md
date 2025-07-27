@@ -18,6 +18,18 @@ A simple raycasting engine written in C using SDL2 that generates and renders 3D
 - [SDL](https://github.com/libsdl-org/SDL)
 - [SDL_TTF](https://github.com/libsdl-org/SDL_ttf)
 
+### MacOS
+```console
+brew install cmake sdl2 sdl2_ttf
+```
+
+### Ubuntu
+```console
+sudo apt-get install cmake libsdl2-dev libsdl2-ttf-dev
+```
+### Windows
+Download and install CMake and SDL2 development libraries.
+
 
 ## How to build
 ```console
