@@ -53,7 +53,7 @@ make
 ## References
 - [L. Vandevenne, Raycasting, 2007](https://lodev.org/cgtutor/raycasting.html)
 - [3DSage, Make Your Own Raycaster, 2020](https://youtu.be/gYRrGTC7GtA?si=VZxics_nXYbQtDgn)
--[jdh, Programming a first person shooter from scratch like its 1995, 2023](https://youtu.be/fSjc8vLMg8c?si=5VyD-zQyV4YRuDRn) 
+- [jdh, Programming a first person shooter from scratch like its 1995, 2023](https://youtu.be/fSjc8vLMg8c?si=5VyD-zQyV4YRuDRn) 
 
 
 ## Status 
